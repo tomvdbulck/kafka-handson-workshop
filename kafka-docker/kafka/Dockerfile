@@ -2,7 +2,7 @@ FROM java:openjdk-8-jre
 
 MAINTAINER Tom Van den Bulck (tomvdbulck@gmail.com)
 
-#Based on https://github.com/spotify/docker-kafka
+# Based on https://github.com/wurstmeister/kafka-docker
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -22,7 +22,7 @@ RUN apt-get update && \
 
 
 ADD scripts/start-kafka.sh /usr/bin/start-kafka.sh
-ADD broker-list.sh /usr/bin/broker-list.sh
+ADD scripts/broker-list.sh /usr/bin/broker-list.sh
 
 RUN chmod a+x /usr/bin/start-kafka.sh && \
     chmod a+x /usr/bin/broker-list.sh
