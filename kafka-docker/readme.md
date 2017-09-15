@@ -1,5 +1,5 @@
 
-# Image with both Zookeeper and Kafka single node
+# Image with both Zookeeper and Kafka, multiple nodes.
 
 
 
@@ -13,7 +13,7 @@ On a MAC:
 ```
 
 With docker-machine:
-```
+```bash
 > docker-machine ip default
 ```
 
