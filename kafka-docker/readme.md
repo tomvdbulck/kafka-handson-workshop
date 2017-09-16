@@ -58,13 +58,26 @@ With the following command you can see the existing topics
 ```
 
 
+
 ### Produce messages
+Replace the port number with a port from a docker container: docker ps
+
 ```bash
-> ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+> ./bin/kafka-console-producer.sh --broker-list="localhost:9092" --topic test
 This is a message
 This is another message
 ```
 ### Consume messages
 ```bash
-> ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+> ./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
 ```
+
+via bootstrap:
+```bash
+> ./bin/kafka-console-consumer.sh --bootstrap-server="localhost:32822" --topic test --from-beginning
+```
+
+Please note: restarting compose-up will register the kafka nodes again to zookeeper which means that they get a new broker id.
+Which means that your old topics can no longer be mapped to a kafka node.
+
+This can be mitigated by passing the --no-recreate option when rerunning docker-compose up. 
