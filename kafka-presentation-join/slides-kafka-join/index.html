@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>JWorks - A base template</title>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/ordina.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script src="js/head.min.js"></script>
+    <!--Add support for earlier versions of Internet Explorer -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>Kafka on Docker</h1>
+                <h3>Containerize it all</h3>
+                <img src="img/jworks-logo.png" style="vertical-align: bottom;" width="22.5%"/>
+            </section>
+
+            <section>
+                <h2>Hi, my name is Tom.</h2>
+                <p>
+                    Developer<br />
+                    Ordina Belgium<br />
+                    @tomvdbulck<br />
+                    https://github.com/tomvdbulck
+                </p>
+            </section>
+
+            <!-- **********
+                EDIT FROM HERE
+            ********** -->
+            <section>
+                <h2>Agenda</h2>
+                <ul>
+                    <li>Kafka</li>
+                    <li>Zookeeper</li>
+                    <li>Docker</li>
+                    <li>All in One</li>
+                    <li>Scale Up</li>
+                    <li>Kafka Monitor</li>
+                </ul>
+            </section>
+
+            <!-- Example of nested vertical slides -->
+            <section>
+                <section>
+                    <h2>Kafka</h2>
+
+                    <img width="50%" src="img/kafka_logo.png">
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Zookeeper</h2>
+
+                    <img width="20%" src="img/zookeeper_logo.jpeg">
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Docker</h2>
+
+                    <img width="50%" src="img/docker-horizontal.png">
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>1 Container</h2>
+
+                    <img width="50%" src="img/lonely_container.JPG">
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Scale Up</h2>
+
+                    <img width="50%" src="img/blue-containers.jpg">
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Kafka Monitor</h2>
+
+                </section>
+                <section>
+                    <h2>Origin</h2>
+                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Questions ?</h2>
+
+                </section>
+            </section>
+
+
+
+
+            <!-- **********
+                DO NOT REMOVE
+            ********** -->
+            <section style="text-align: left;">
+                <h2>Thanks for watching!</h2>
+                <p class="fragment">Now kick some ass!</p>
+            </section>
+
+            <section style="text-align: left;" data-background="img/jworks-wallpaper-3.jpg"></section>
+        </div>
+    </div>
+    <script src="js/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: 'convex',
+            dependencies: [
+                // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+                {
+                    src: 'lib/js/classList.js',
+                    condition: function () {
+                        return !document.body.classList;
+                    }
+                },
+                // Interpret Markdown in <section> elements
+                {
+                    src: 'plugin/markdown/marked.js',
+                    condition: function() {
+                        return !!document.querySelector( '[data-markdown]' );
+                    }
+                },
+                {
+                    src: 'plugin/markdown/markdown.js',
+                    condition: function() {
+                        return !!document.querySelector( '[data-markdown]' );
+                    }
+                },
+                // Syntax highlight for <code> elements
+                {
+                    src: 'plugin/highlight/highlight.js',
+                    async: true,
+                    callback: function () {
+                        hljs.initHighlightingOnLoad();
+                    }
+                },
+                // Zoom in and out with Alt+click
+                {
+                    src: 'plugin/zoom-js/zoom.js',
+                    async: true
+                },
+                // Speaker notes
+                {
+                    src: 'plugin/notes/notes.js',
+                    async: true
+                }
+        ]
+        });
+    </script>
+</body>
+
+</html>
