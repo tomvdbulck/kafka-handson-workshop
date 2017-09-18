@@ -299,8 +299,28 @@ As a result of taking storage seriously and allowing the clients to control thei
                     <img width="50%" src="img/docker-horizontal.png">
                 </section>
                 <section>
-                    <h2>Origin</h2>
-                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                    <h2>Docker</h2>
+                    <ul>
+                        <li>Build: standardized way using Docker CLI in a DockerFile</li>
+                        <li>Ship: share the container - it is just a file</li>
+                        <li>Run: less overhead then a VM</li>
+                    </ul>
+                    <aside class="notes">
+                        Docker runs on a minimal operation system so it has much less overhead then a traditional VM.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Docker Compose</h2>
+                    <ul>
+                        <li>Multi-container applications</li>
+                        <li>docker-compose.yml</li>
+                        <li>Software defined network</li>
+                    </ul>
+                    <aside class="notes">
+                        Defined in a docker-compose file: great tool for setting up development, staging and CI environments.
+                        
+                        Docker-compose helps you by linking these containers.
+                    </aside>
                 </section>
             </section>
 
