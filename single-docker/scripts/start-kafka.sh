@@ -1,9 +1,6 @@
 #!/bin/sh
 #Issue newline to config file in case there is not one already
 
-
-
-
 echo "\n" >> $KAFKA_HOME/config/server.properties
 
 # Set the external host and port
@@ -23,8 +20,6 @@ if [ ! -z "$ADVERTISED_PORT" ]; then
         echo "advertised.port=$ADVERTISED_PORT" >> $KAFKA_HOME/config/server.properties
     fi
 fi
-
-
 
 # Run Zookeeper single node
 $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
