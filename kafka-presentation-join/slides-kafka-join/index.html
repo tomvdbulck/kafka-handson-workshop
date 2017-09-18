@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>JWorks - A base template</title>
+    <title>JWorks - Kafka on Docker</title>
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/ordina.css" id="theme">
     <link rel="stylesheet" href="css/custom.css">
@@ -66,9 +66,179 @@
                     <img width="50%" src="img/kafka_logo.png">
                 </section>
                 <section>
-                    <h2>Origin</h2>
-                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                    <h2>Kafka</h2>
+                    <img width="50%" src="img/kafka_diagram.png">
+                    <aside class="notes"><ul>
+                        <li>Publish and Subscribe</li>
+                        <li>Process Streams of Data</li>
+                        <li>Store</li>
+                    </ul></aside>
                 </section>
+                <section>
+                    <h2>4 Core API's</h2>
+                    <img width="50%" src="img/kafka-apis.png">
+                </section>
+                <section>
+                    <h2>4 Core API's</h2>
+                    <ul>
+                        <li>Producer API: publish to a topic</li>
+                        <li>Consumer API: subscribe to a topic</li>
+                        <li>Streams API: stream processor</li>
+                        <li>Connector API: resuable producers and consumers</li>
+                    </ul>
+                    <aside class="notes">
+                        <lu>
+                            <li>The Producer API allows an application to publish a stream of records to one or more Kafka topics.</li>
+                            <li>The Consumer API allows an application to subscribe to one or more topics and process the stream of records produced to them.</li>
+                            <li>The Streams API allows an application to act as a stream processor, consuming an input stream from one or more topics and producing an output stream to one or more output topics, effectively transforming the input streams to output streams.</li>
+                            <li>The Connector API allows building and running reusable producers or consumers that connect Kafka topics to existing applications or data systems. For example, a connector to a relational database might capture every change to a table.</li>
+                        </lu>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Topics and Logs</h2>
+                    <img width="50%" src="img/log_anatomy.png">
+                    <aside class="notes">
+                        A topic is to where records are published - always multi-subscriber (0 - n consumers)
+                        
+                        For each topic Kafka maintains a partitioned log
+                        
+                        Each partition is an ordered, immutable sequence of records that is continuously appended to.
+                        Each record in a partition is assigned an offset, which uniquely identifies each record within a partition.
+                        
+                    </aside>
+                </section>
+                <section>
+                    <h2>Topics and Logs</h2>
+                    <ul>
+                        <li>The cluster retains all published records</li>
+                        <li>The consumer controls its offset</li>
+                        <li>Low overhead per consumer</li>
+                    </ul>
+                    <aside class="notes">
+                        All records are retained for a configurable time.
+                        Only overhead per consumer is the current offset of that consumer.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Partitions</h2>
+                    <ul>
+                        <li>Allow the system to scale.</li>
+                        <li>Are replicated</li>
+                        <li>Each partition has 1 leader</li>
+                        <li>Guarantees order of records</li>
+                    </ul>
+                    <aside class="notes">
+                        The contents of a partition must fit on 1 server
+                        They are replicated for fault tolerance
+                        Each leader handles all read and write requests, while the followers passively replicate.
+                        Each server acts as a leader for some partitions and follower for others so the load gets distributed.
+                        Kafka only provides a total order over records within a partition, not between different partitions in a topic. Per-partition ordering combined with the ability to partition data by key is sufficient for most applications.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Producers</h2>
+                    <ul>
+                        <li>Will assign record to a partition</li>
+                        <li>Round Robin or based on a key</li>
+                    </ul>
+                    <aside class="notes">
+
+                    </aside>
+                </section>
+                <section>
+                    <h2>Consumers</h2>
+                    <ul>
+                        <li>Consumers are part of a Consumer Group</li>
+                        <li>1 record published to 1 consumer instance</li>
+                        <li>Partitions will determine max. # of consumers</li>
+                        <li>Scalable within a Consumer Group</li>
+                    </ul>
+                    <aside class="notes">
+                        The contents of a partition must fit on 1 server
+                        They are replicated for fault tolerance
+                        Each leader handles all read and write requests, while the followers passively replicate.
+                        Each server acts as a leader for some partitions and follower for others so the load gets distributed.
+                        The way consumption is implemented in Kafka is by dividing up the partitions in the log over the consumer instances so that each instance is the exclusive consumer of a "fair share" of partitions at any point in time. This process of maintaining membership in the group is handled by the Kafka protocol dynamically. If new instances join the group they will take over some partitions from other members of the group; if an instance dies, its partitions will be distributed to the remaining instances.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Kafka Streams</h2>
+                    <img width="50%" src="img/streams-welcome.png">
+                    <aside class="notes">
+                        Simple and lightweight client library
+                        No external dependencies - only to Kafka
+                        Exactly-once is supported
+                    </aside>
+                </section>
+                <section>
+                    <h2>Kafka Streams</h2>
+                    <img width="50%" src="img/streams-architecture-topology.jpg">
+                    <aside class="notes">
+                        A Stream represents an unbounded, continuously updating data set.
+                        An ordered, replayable and fault-tolerant sequence of immutable data records
+                        Stream processing application uses one or more processor topologies.
+                        Stream processor is a note in the processor topology
+                        Source Processor: produces and input stream
+                        Sink Processor: has no down-stream processors
+                    </aside>
+                </section>
+                <section>
+                    <h2>A Storage System</h2>
+                    <ul>
+                        <li>Kafka is a very good storage system</li>
+                        <li>Written to Disk and Replicated</li>
+                        <li>No Performance Loss</li>
+                        <li>https://www.confluent.io/blog/okay-store-data-apache-kafka/</li>
+                    </ul>
+                    <aside class="notes">
+                        Any message queue that allows publishing messages decoupled from consuming them is effectively acting as a storage system for the in-flight messages. What is different about Kafka is that it is a very good storage system.
+                        Data written to kafka is written to disk and replicated.
+                        Allows producers to wait on acknowledgement so that a write is only considered complete when replicated and guaranteed to persist event if the server fails
+                        
+                        The disk structures Kafka uses scale well—Kafka will perform the same whether you have 50 KB or 50 TB of persistent data on the server.
+
+As a result of taking storage seriously and allowing the clients to control their read position, you can think of Kafka as a kind of special purpose distributed filesystem dedicated to high-performance, low-latency commit log storage, replication, and propagation.
+
+
+
+                    </aside>
+                </section>
+                <section>
+                    <h2>A Messaging System</h2>
+                    <p> Traditionally 2 models
+                    <ul>
+                        <li>Queueing: process record once</li>
+                        <li>Publish and Subscribe: broadcast</li>
+                        
+                    </ul>
+                    </p>
+                    <aside class="notes">
+                        Messaging traditionally has two models: queuing and publish-subscribe. In a queue, a pool of consumers may read from a server and each record goes to one of them; in publish-subscribe the record is broadcast to all consumers. Each of these two models has a strength and a weakness. The strength of queuing is that it allows you to divide up the processing of data over multiple consumer instances, which lets you scale your processing. Unfortunately, queues aren't multi-subscriber—once one process reads the data it's gone. Publish-subscribe allows you broadcast data to multiple processes, but has no way of scaling processing since every message goes to every subscriber.
+                    </aside>
+                </section>
+                <section>
+                    <h2>The Consumer Group</h2>
+                    <p><ul>
+                        <li>Divide Processing - like with a queue</li>
+                        <li>Broadcast to multiple consumer groups - like publish-subscribe</li>
+                        <li>Stronger Ordering Guarantees</li>
+                    </ul>
+                        
+                    </p>
+                    
+                    <aside class="notes">
+                        Paralel processing over members of a consumer group.
+                        Broadcast to other consumer groups
+                        
+                        This for every topic
+                        
+                        Strong ordering guarantees then traditional systems - queues provide records as received.
+                        But if more consumers process then ordering can be lost.
+                        Thanks to the partitions this ordering can be retained
+                    </aside>
+                </section>
+
             </section>
 
             <section>
@@ -78,8 +248,47 @@
                     <img width="20%" src="img/zookeeper_logo.jpeg">
                 </section>
                 <section>
-                    <h2>Origin</h2>
-                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                    <h2>Zookeeper</h2>
+
+                    <img width="50%" src="img/zookeeper%20service.png">
+                    <aside class="notes">
+                        A Distributed Coordination Service
+                        For distributed Applications
+                        Data model styled after the familiar tree structure of file systems
+                        Easy to program to so that distributed applications can build upon for synchronization, configuration maintenance and groups and naming.
+                    </aside>    
+                </section>
+                <section>
+                    <h2>Zookeeper</h2>
+                    <ul>
+                        <li>Distributed Coordination Service</li>
+                        <li>For Distributed Applications</li>
+                        <li>File system like Structure</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Why does Kafka Need it</h2>
+                    <p>
+                        <ul>
+                            <li>Electing a Controller</li>
+                            <li>Cluster Membership</li>
+                            <li>Topic Configuration</li>
+                            <li>Quotas</li>
+                            <li>ACL: Who is allowed to read and write</li>
+                        </ul>
+                    
+                    </p>
+                <aside class="notes">
+                        The controler is one of the brokers, a broker is a kafka node, which is is responsible to maintain the leader/follower relationship for all Partitions. Zookeepers makes sure there is 1 and if it crashed will elect a new one. The controller will tell replicas to become partition leaders - can reshuffle partitions, ... 
+                    
+                        Cluster membership: which brokers are alive and part of the cluster.
+                    
+                        Which topics exist, how many partitions, where are the replicas, ... 
+                        
+                        How much data is each client allowed to read and write
+                        
+                        Kafka comes with Kafka Authorization Command Line - define uses and access
+                    </aside>
                 </section>
             </section>
 
