@@ -75,11 +75,11 @@
                     </ul></aside>
                 </section>
                 <section>
-                    <h2>4 Core API's</h2>
+                    <h2>Kafka: 4 Core API's</h2>
                     <img width="50%" src="img/kafka-apis.png">
                 </section>
                 <section>
-                    <h2>4 Core API's</h2>
+                    <h2>Kafka: 4 Core API's</h2>
                     <ul>
                         <li>Producer API: publish to a topic</li>
                         <li>Consumer API: subscribe to a topic</li>
@@ -96,7 +96,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Topics and Logs</h2>
+                    <h2>Kafka: Topics and Logs</h2>
                     <img width="50%" src="img/log_anatomy.png">
                     <aside class="notes">
                         A topic is to where records are published - always multi-subscriber (0 - n consumers)
@@ -109,7 +109,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Topics and Logs</h2>
+                    <h2>Kafka: Topics and Logs</h2>
                     <ul>
                         <li>The cluster retains all published records</li>
                         <li>The consumer controls its offset</li>
@@ -121,7 +121,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Partitions</h2>
+                    <h2>Kafka: Partitions</h2>
                     <ul>
                         <li>Allow the system to scale.</li>
                         <li>Are replicated</li>
@@ -137,7 +137,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Producers</h2>
+                    <h2>Kafka: Producers</h2>
                     <ul>
                         <li>Will assign record to a partition</li>
                         <li>Round Robin or based on a key</li>
@@ -147,7 +147,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Consumers</h2>
+                    <h2>Kafka: Consumers</h2>
                     <ul>
                         <li>Consumers are part of a Consumer Group</li>
                         <li>1 record published to 1 consumer instance</li>
@@ -163,7 +163,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Kafka Streams</h2>
+                    <h2>Kafka: Kafka Streams</h2>
                     <img width="50%" src="img/streams-welcome.png">
                     <aside class="notes">
                         Simple and lightweight client library
@@ -172,7 +172,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>Kafka Streams</h2>
+                    <h2>Kafka: Kafka Streams</h2>
                     <img width="50%" src="img/streams-architecture-topology.jpg">
                     <aside class="notes">
                         A Stream represents an unbounded, continuously updating data set.
@@ -184,7 +184,7 @@
                     </aside>
                 </section>
                 <section>
-                    <h2>A Storage System</h2>
+                    <h2>Kafka: A Storage System</h2>
                     <ul>
                         <li>Kafka is a very good storage system</li>
                         <li>Written to Disk and Replicated</li>
@@ -205,7 +205,7 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </aside>
                 </section>
                 <section>
-                    <h2>A Messaging System</h2>
+                    <h2>Kafka: A Messaging System</h2>
                     <p> Traditionally 2 models
                     <ul>
                         <li>Queueing: process record once</li>
@@ -218,7 +218,7 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </aside>
                 </section>
                 <section>
-                    <h2>The Consumer Group</h2>
+                    <h2>Kafka: The Consumer Group</h2>
                     <p><ul>
                         <li>Divide Processing - like with a queue</li>
                         <li>Broadcast to multiple consumer groups - like publish-subscribe</li>
@@ -267,7 +267,7 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </ul>
                 </section>
                 <section>
-                    <h2>Why does Kafka Need it</h2>
+                    <h2>Zookeeper: Why does Kafka Need it</h2>
                     <p>
                         <ul>
                             <li>Electing a Controller</li>
@@ -326,36 +326,35 @@ As a result of taking storage seriously and allowing the clients to control thei
 
             <section>
                 <section>
-                    <h2>1 Container</h2>
+                    <h2>All in 1 Container</h2>
 
                     <img width="50%" src="img/lonely_container.JPG">
                 </section>
                 <section>
-                    <h2>The Goal</h2>
+                    <h2>Single Container: The Goal</h2>
                     <p>1 container with both Zookeeper and Kafka</p>
-                    <p>Why?</p> 
                 </section>
                 <section>
-                    <h2>DockerFile</h2>
+                    <h2>Single Container: DockerFile</h2>
                     <img width="100%" src="img/single/download-smaller.png">
                     <aside class="notes">
                         Based on the Spotify Kafka Docker image.
                     </aside>
                 </section>
                 <section>
-                    <h2>DockerFile</h2>
+                    <h2>Single Container: DockerFile</h2>
                     <img width="100%" src="img/single/get-scripts.png">
                 </section>
                 <section>
-                    <h2>Startup Scripts</h2>
+                    <h2>Single Container: Startup Scripts</h2>
                      <img width="100%" src="img/single/start-zookeeper.png">
                 </section>
                 <section>
-                    <h2>Startup Scripts</h2>
+                    <h2>Single Container: Startup Scripts</h2>
                      <img width="100%" src="img/single/start-kafka.png">
                 </section>
                 <section>
-                    <h2>Get Started: Start the Container</h2>
+                    <h2>Single Container: Get Started</h2>
                     <p>Create the image</p>
                      <pre><code data-trim contenteditable>
                      docker build -t kafka-zookeeper .
@@ -366,18 +365,146 @@ As a result of taking storage seriously and allowing the clients to control thei
                      </code></pre>
                 </section>
                 <section>
-                    <h2>Get Started: Start the Container</h2>
+                    <h2>Single Container: Get Started</h2>
                     <p>Access Kafka from outside the container: add the following parameters</p>
                      <pre><code data-trim contenteditable>
                      -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092
                      </code></pre>
                 </section>
                 <section>
-                    <h2>Get Started: Topics</h2>
+                    <h2>Single Container: Topics</h2>
                     <p>1 container with both Zookeeper and Kafka</p>
                     <pre><code data-trim contenteditable>
                     > bin/kafka-topics.sh --create --zookeeper localhost:2181 
-                    --replication-factor 1 --partitions 1 --topic test
+                    --replication-factor 1 --partitions 10 --topic test
+                     </code></pre>
+                    <p>Retrieve a list of topics on Zookeeper</p>
+                    <pre><code data-trim contenteditable>
+                    > bin/kafka-topics.sh --list --zookeeper localhost:2181
+                     </code></pre>
+                    <p>Describe a topic: leader / replicated nodes</p>
+                    <pre><code data-trim contenteditable>
+                    > bin/kafka-topics.sh --describe --zookeeper localhost:2181
+                     </code></pre>
+                    <aside class="notes">
+                        You can have as much partitions as you want - but for replication you will need more then 1 node.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Single Container: Publish and Subscribe</h2>
+                    <p>Producer</p>
+                    <pre><code data-trim contenteditable>
+                    > bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+This is a message
+This is another message
+                     </code></pre>
+                    <p>Single Container: Consumer</p>
+                    <pre><code data-trim contenteditable>
+                    > bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 
+                    --topic test --from-beginning
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Single Container: Result</h2>
+                    <ul>
+                        <li>Single Container</li>
+                        <li>1 zookeeper and 1 kafka node</li>
+                        <li>Data not stored</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Scale Up: a Cluster</h2>
+
+                    <img width="50%" src="img/blue-containers.jpg">
+                </section>
+                <section>
+                    <h2>Cluster: The Goal</h2>
+                    <p>A Zookeeper Cluster and a Dynamically Scalable Kafka Cluster</p>
+                </section>
+                <section>
+                    <h2>Cluster: DockerFile Zookeeper</h2>
+                    <img width="100%" src="img/multi/zookeeper-download.png">
+                    <aside class="notes">
+                        Based on the zookeeper image of .
+                    </aside>
+                </section>
+                <section>
+                    <h2>Cluster: DockerFile Zookeeper</h2>
+                    <img width="100%" src="img/multi/zookeeper-volume.png">
+                </section>
+                <section>
+                    <h2>Cluster: DockerFile Zookeeper</h2>
+                     <img width="100%" src="img/multi/zookeeper-copy-scripts.png">
+                </section>
+                <section>
+                    <h2>Cluster: Startup Scripts Zookeeper</h2>
+                     <img width="100%" src="img/multi/zookeeper-configure.png">
+                </section>
+                <section>
+                    <h2>Cluster: Startup Scripts Zookeeper</h2>
+                     <img width="100%" src="img/multi/zookeeper-start-script.png">
+                </section>
+                <section>
+                    <h2>Cluster: DockerFile Kafka</h2>
+                    <img width="100%" src="img/multi/kafka-download-smaller.png">
+                </section>
+                <section>
+                    <h2>Cluster: DockerFile Kafka</h2>
+                    <img width="100%" src="img/multi/kafka-dockerfile.png">
+                </section>
+                <section>
+                    <h2>Cluster: Startup Scripts Kafka</h2>
+                    <img width="100%" src="img/multi/kafka-set-props.png">
+                </section>
+                <section>
+                    <h2>Cluster: Startup Scripts Kafka</h2>
+                    <img width="100%" src="img/multi/kafka-update-props.png">
+                </section>
+                <section>
+                    <h2>Cluster: Startup Scripts Kafka</h2>
+                    <img width="100%" src="img/multi/kafka-start.png">
+                </section>
+                <section>
+                    <h2>Cluster: Docker Compose</h2>
+                    <img width="100%" src="img/multi/docker-compose.png">
+                </section>
+                <section>
+                    <h2>Cluster: Docker Compose</h2>
+                    <img width="100%" src="img/multi/docker-compose-zookeeper.png">
+                </section>
+                <section>
+                    <h2>Cluster: Docker Compose</h2>
+                    <img width="100%" src="img/multi/docker-compose-kafka.png">
+                </section>
+                <section>
+                    <h2>Cluster: Get Started</h2>
+                    <p>Get the KAFKA_ADVERTISED_HOSTNAME</p>
+                     <pre><code data-trim contenteditable>
+                     > ipconfig getifaddr en0
+                     </code></pre>
+                    <pre><code data-trim contenteditable>
+                     > docker-machine ip default
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Cluster: Get Started</h2>
+                     <pre><code data-trim contenteditable>
+                     > docker-compose up -d
+                     </code></pre>
+                    <p>Scale up</p>
+                    <pre><code data-trim contenteditable>
+                     > docker-compose up -d --scale kafka=4
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Cluster: Topics</h2>
+                    <p>1 container with both Zookeeper and Kafka</p>
+                    <pre><code data-trim contenteditable>
+                    > bin/kafka-topics.sh --create --zookeeper localhost:2181 
+                    --replication-factor 4 --partitions 4 --topic test
                      </code></pre>
                     <p>Retrieve a list of topics on Zookeeper</p>
                     <pre><code data-trim contenteditable>
@@ -389,30 +516,38 @@ As a result of taking storage seriously and allowing the clients to control thei
                      </code></pre>
                 </section>
                 <section>
-                    <h2>Get Started: Produce and Consume</h2>
-                    <p>Produce</p>
+                    <h2>Cluster: Publish and Subscribe</h2>
+                    <p>Producer</p>
                     <pre><code data-trim contenteditable>
-                    > bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+                    > bin/kafka-console-producer.sh --broker-list="localhost:9092" --topic test
 This is a message
 This is another message
                      </code></pre>
-                    <p>Consume</p>
+                    <p>Consumer</p>
                     <pre><code data-trim contenteditable>
-                    > bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 
+                    > bin/kafka-console-consumer.sh --bootstrap-server="localhost:9092" 
                     --topic test --from-beginning
                      </code></pre>
-                </section>
-            </section>
-
-            <section>
-                <section>
-                    <h2>Scale Up</h2>
-
-                    <img width="50%" src="img/blue-containers.jpg">
+                     <aside class="notes">
+                        You can pass more then 1 kafka url in the broker-list / bootstrap server.
+                        So that if one of those would be down you can still connect to it
+                    </aside>
                 </section>
                 <section>
-                    <h2>Origin</h2>
-                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                    <h2>Cluster: Result</h2>
+                    <ul>
+                        <li>Zookeeper Cluster with 3 Nodes</li>
+                        <li>Kafka can be scaled on the fly</li>
+                        <li>Zookeeper Data retained</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Cluster: Result - but</h2>
+                    <ul>
+                        <li>Kafka Nodes get new id during startup</li>
+                        <li>Zookeeper can no relink</li>
+                        <li>Can be mitigated with the --no-recreate option of Docker Compose</li>
+                    </ul>
                 </section>
             </section>
 
@@ -422,10 +557,60 @@ This is another message
 
                 </section>
                 <section>
-                    <h2>Origin</h2>
-                    <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+                    <h2>Kafka Monitor: Get Started</h2>
+                    <pre><code data-trim contenteditable>
+                        $ git clone https://github.com/linkedin/kafka-monitor.git
+$ cd kafka-monitor 
+$ ./gradlew jar
+                     </code></pre>
+                    <p>Update the properties if needed in kafka-monitor.properties</p>
+                    <pre><code data-trim contenteditable>
+                            "zookeeper.connect": "localhost:2181",
+                            "bootstrap.servers": "192.168.0.117:32828",
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Kafka Monitor: Get Started</h2>
+                    <p>Start it up</p>
+                    <pre><code data-trim contenteditable>
+                        ./bin/kafka-monitor-start.sh config/kafka-monitor.properties
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Kafka Monitor: Get Started</h2>
+                    <p>Go to http://localhost:8000/index.html</p>
+                    <img width="100%" src="img/monitor/monitor.png">
                 </section>
             </section>
+    
+            <section>
+                <section>
+                    <h2>Demo</h2>
+
+                </section>
+                <section>
+                    <h2>Demo: Topic</h2>
+                    
+                    <img width="100%" src="img/demo/create-topic.png">
+                </section>
+                <section>
+                    <h2>Demo: Topic</h2>
+                    
+                    <img width="100%" src="img/demo/describe-topic.png">
+                </section>
+                <section>
+                    <h2>Demo: Publish and Subscribe</h2>
+                    
+                    <img width="100%" src="img/demo/consume-produce.png">
+                </section>
+                <section>
+                    <h2>Demo: Do It Yourself</h2>
+                    <p>https://github.com/tomvdbulck/kafka-docker</p>
+                </section>
+            </section>
+
+    
+    
 
             <section>
                 <section>
