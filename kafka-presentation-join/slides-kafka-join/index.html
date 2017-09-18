@@ -75,27 +75,6 @@
                     </ul></aside>
                 </section>
                 <section>
-                    <h2>Kafka: 4 Core API's</h2>
-                    <img width="50%" src="img/kafka-apis.png">
-                </section>
-                <section>
-                    <h2>Kafka: 4 Core API's</h2>
-                    <ul>
-                        <li>Producer API: publish to a topic</li>
-                        <li>Consumer API: subscribe to a topic</li>
-                        <li>Streams API: stream processor</li>
-                        <li>Connector API: resuable producers and consumers</li>
-                    </ul>
-                    <aside class="notes">
-                        <lu>
-                            <li>The Producer API allows an application to publish a stream of records to one or more Kafka topics.</li>
-                            <li>The Consumer API allows an application to subscribe to one or more topics and process the stream of records produced to them.</li>
-                            <li>The Streams API allows an application to act as a stream processor, consuming an input stream from one or more topics and producing an output stream to one or more output topics, effectively transforming the input streams to output streams.</li>
-                            <li>The Connector API allows building and running reusable producers or consumers that connect Kafka topics to existing applications or data systems. For example, a connector to a relational database might capture every change to a table.</li>
-                        </lu>
-                    </aside>
-                </section>
-                <section>
                     <h2>Kafka: Topics and Logs</h2>
                     <img width="50%" src="img/log_anatomy.png">
                     <aside class="notes">
@@ -163,6 +142,29 @@
                     </aside>
                 </section>
                 <section>
+                    <h2>Kafka: 4 Core API's</h2>
+                    <img width="50%" src="img/kafka-apis.png">
+                </section>
+                <section>
+                    <h2>Kafka: 4 Core API's</h2>
+                    <ul>
+                        <li>Producer API: publish to a topic</li>
+                        <li>Consumer API: subscribe to a topic</li>
+                        <li>Streams API: stream processor</li>
+                        <li>Connector API: resuable producers and consumers</li>
+                    </ul>
+                    <aside class="notes">
+                        <lu>
+                            <li>The Producer API allows an application to publish a stream of records to one or more Kafka topics.</li>
+                            <li>The Consumer API allows an application to subscribe to one or more topics and process the stream of records produced to them.</li>
+                            <li>The Streams API allows an application to act as a stream processor, consuming an input stream from one or more topics and producing an output stream to one or more output topics, effectively transforming the input streams to output streams.</li>
+                            <li>The Connector API allows building and running reusable producers or consumers that connect Kafka topics to existing applications or data systems. For example, a connector to a relational database might capture every change to a table.</li>
+                        </lu>
+                    </aside>
+                </section>
+                
+                
+                <section>
                     <h2>Kafka: Kafka Streams</h2>
                     <img width="50%" src="img/streams-welcome.png">
                     <aside class="notes">
@@ -223,6 +225,7 @@ As a result of taking storage seriously and allowing the clients to control thei
                         <li>Divide Processing - like with a queue</li>
                         <li>Broadcast to multiple consumer groups - like publish-subscribe</li>
                         <li>Stronger Ordering Guarantees</li>
+                        <li>Only 1 consumer per consumer group can process a partition</li>
                     </ul>
                         
                     </p>
@@ -544,8 +547,8 @@ This is another message
                 <section>
                     <h2>Cluster: Result - but</h2>
                     <ul>
-                        <li>Kafka Nodes get new id during startup</li>
-                        <li>Zookeeper can no relink</li>
+                        <li>Kafka Nodes get new broker id during startup</li>
+                        <li>Zookeeper can not relink topics with Kafka Brokers</li>
                         <li>Can be mitigated with the --no-recreate option of Docker Compose</li>
                     </ul>
                 </section>
@@ -564,9 +567,9 @@ $ cd kafka-monitor
 $ ./gradlew jar
                      </code></pre>
                     <p>Update the properties if needed in kafka-monitor.properties</p>
-                    <pre><code data-trim contenteditable>
-                            "zookeeper.connect": "localhost:2181",
-                            "bootstrap.servers": "192.168.0.117:32828",
+                    <pre><code data-trim contenteditable>"zookeeper.connect": "localhost:2181",
+                     </code></pre>
+                    <pre><code>"bootstrap.servers": "192.168.0.117:32828",
                      </code></pre>
                 </section>
                 <section>
