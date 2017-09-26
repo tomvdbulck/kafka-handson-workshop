@@ -1,0 +1,17 @@
+
+> docker ps -f status=exited
+
+
+
+> docker images
+
+
+> docker ps
+> docker stop containerid
+> docker start containerid
+
+
+192.168.56.62
+
+
+>docker exec -it [container-id or container-name] bash
