@@ -8,18 +8,12 @@ public class TopicService {
 
     private final AdminClient admin;
 
-    public TopicService() {
-        Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
-
-        admin = AdminClient.create(config);
+    public TopicService(AdminClient adminClient) {
+        admin = adminClient;
     }
 
 
-
     public CreateTopicsResult createTopic(final String name, final Integer partitions, final Short replication) {
-
-
         List newTopics = new ArrayList<NewTopic>();
 
         newTopics.add(new NewTopic(name, partitions, replication));
@@ -29,13 +23,11 @@ public class TopicService {
     }
 
     public ListTopicsResult listTopics() {
-
         return admin.listTopics();
 
     }
 
     public DescribeTopicsResult describeTopic(List<String> topics) {
-
         return admin.describeTopics(topics);
     }
 

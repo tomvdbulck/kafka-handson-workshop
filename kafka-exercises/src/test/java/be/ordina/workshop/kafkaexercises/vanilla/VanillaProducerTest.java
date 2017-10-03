@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
+
+//TODO rework to use MockProducer
+
 public class VanillaProducerTest {
 
     private VanillaProducer vanillaProducer = new VanillaProducer();

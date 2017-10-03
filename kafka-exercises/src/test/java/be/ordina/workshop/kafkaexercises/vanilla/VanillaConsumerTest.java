@@ -1,8 +1,10 @@
 package be.ordina.workshop.kafkaexercises.vanilla;
 
+import org.apache.kafka.clients.consumer.MockConsumer;
 import org.junit.Before;
 import org.junit.Test;
 
+//TODO rework to use MockConsumer
 public class VanillaConsumerTest {
 
     private VanillaConsumer consumer = new VanillaConsumer();
