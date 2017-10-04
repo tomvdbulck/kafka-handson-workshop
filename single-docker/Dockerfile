@@ -25,6 +25,7 @@ ADD scripts/start-zookeeper.sh /usr/bin/start-zookeeper.sh
 RUN chmod +x /usr/bin/start-zookeeper.sh
 
 ADD scripts/start-kafka.sh /usr/bin/start-kafka.sh
+RUN chmod +x /usr/bin/start-kafka.sh
 
 
 # Supervisor config
