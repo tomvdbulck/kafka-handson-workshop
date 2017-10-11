@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SimpleProducer {
     private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String TOPIC = "test-topic";
+    private static final String TOPIC = "reactor-test";
 
     private final KafkaSender<Integer, String> sender;
     private final SimpleDateFormat dateFormat;

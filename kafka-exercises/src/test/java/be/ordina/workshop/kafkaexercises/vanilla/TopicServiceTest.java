@@ -16,7 +16,7 @@ public class TopicServiceTest {
     @Before
     public void setup() {
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
         topicService = new TopicService(AdminClient.create(config));
     }

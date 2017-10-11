@@ -24,14 +24,18 @@ public class VanillaConsumer {
     }
 
 
-    public void readMessages(final String topic) {
+    public void readMessages(final String ... topics) {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Arrays.asList("foo", "bar"));
+        consumer.subscribe(Arrays.asList(topics));
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(100);
             for (ConsumerRecord<String, String> record : records)
                 System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+
+            if (records.isEmpty()) {
+                break;
+            }
         }
 
     }

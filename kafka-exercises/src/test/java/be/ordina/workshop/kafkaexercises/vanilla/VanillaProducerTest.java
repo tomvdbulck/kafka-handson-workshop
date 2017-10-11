@@ -1,10 +1,13 @@
 package be.ordina.workshop.kafkaexercises.vanilla;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.Future;
 
 
@@ -16,7 +19,11 @@ public class VanillaProducerTest {
 
     @Before
     public void setup() {
-        TopicService topicService = new TopicService();
+
+        Properties config = new Properties();
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        TopicService topicService = new TopicService(AdminClient.create(config));
         topicService.createTopic("test", 1, (short) 1);
     }
 

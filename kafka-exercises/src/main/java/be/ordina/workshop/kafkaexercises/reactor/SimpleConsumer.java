@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import reactor.core.Cancellation;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOffset;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SimpleConsumer {
     private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String TOPIC = "test-topic";
+    private static final String TOPIC = "reactor-test";
 
     private final ReceiverOptions<Integer, String> receiverOptions;
     private final SimpleDateFormat dateFormat;
@@ -41,7 +41,7 @@ public class SimpleConsumer {
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
     }
 
-    public Cancellation consumeMessages(String topic, CountDownLatch latch) {
+    public Disposable consumeMessages(String topic, CountDownLatch latch) {
 
         ReceiverOptions<Integer, String> options = receiverOptions.subscription(Collections.singleton(topic))
                 .addAssignListener(partitions -> log.debug("onPartitionsAssigned {}", partitions))
@@ -65,7 +65,7 @@ public class SimpleConsumer {
         int count = 20;
         CountDownLatch latch = new CountDownLatch(count);
         SimpleConsumer consumer = new SimpleConsumer(BOOTSTRAP_SERVERS);
-        Cancellation disposable = consumer.consumeMessages(TOPIC, latch);
+        Disposable disposable = consumer.consumeMessages(TOPIC, latch);
         latch.await(1, TimeUnit.SECONDS);
         disposable.dispose();
     }

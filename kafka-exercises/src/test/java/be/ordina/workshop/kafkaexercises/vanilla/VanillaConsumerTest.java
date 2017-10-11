@@ -1,8 +1,12 @@
 package be.ordina.workshop.kafkaexercises.vanilla;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.MockConsumer;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Properties;
 
 //TODO rework to use MockConsumer
 public class VanillaConsumerTest {
@@ -11,7 +15,10 @@ public class VanillaConsumerTest {
 
     @Before
     public void setup() {
-        TopicService topicService = new TopicService();
+        Properties config = new Properties();
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        TopicService topicService = new TopicService(AdminClient.create(config));
         topicService.createTopic("test", 1, (short) 1);
     }
 
