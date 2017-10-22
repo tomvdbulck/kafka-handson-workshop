@@ -1,8 +1,10 @@
-package be.ordina.workshop.kafkaexercises.vanilla;
+package be.ordina.workshop.kafkaexercises.kafka_native;
 
 import org.apache.kafka.clients.admin.*;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
+
 
 public class TopicService {
 

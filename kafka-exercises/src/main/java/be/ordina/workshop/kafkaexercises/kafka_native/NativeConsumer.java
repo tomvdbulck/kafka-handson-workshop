@@ -1,19 +1,21 @@
-package be.ordina.workshop.kafkaexercises.vanilla;
+package be.ordina.workshop.kafkaexercises.kafka_native;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Properties;
 
-public class VanillaConsumer {
+@Component
+public class NativeConsumer {
 
 
     private final Properties props;
 
 
-    public VanillaConsumer() {
+    public NativeConsumer() {
         props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("group.id", "test");

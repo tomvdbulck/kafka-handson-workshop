@@ -1,8 +1,9 @@
-package be.ordina.workshop.kafkaexercises.vanilla;
+package be.ordina.workshop.kafkaexercises.kafka_native;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ import java.util.concurrent.Future;
 
 //TODO rework to use MockProducer
 
-public class VanillaProducerTest {
+public class NativeProducerTest {
 
-    private VanillaProducer vanillaProducer = new VanillaProducer();
+    private NativeProducer nativeProducer = new NativeProducer();
 
     @Before
     public void setup() {
@@ -23,20 +24,21 @@ public class VanillaProducerTest {
         Properties config = new Properties();
         config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        TopicService topicService = new TopicService(AdminClient.create(config));
-        topicService.createTopic("test", 1, (short) 1);
+        //TopicService topicService = new TopicService(AdminClient.create(config));
+        //topicService.createTopic("test", 1, (short) 1);
     }
 
     @Test
+    @Ignore
     public void sendMessageTest() {
 
         List<String> messages = new ArrayList<>();
-        messages.add("vanilla");
+        messages.add("kafka_native");
         messages.add("mokka");
         messages.add("pistache");
         messages.add("strawberry");
 
-        List<Future> futures = vanillaProducer.sendMessages("test", messages);
+        //List<Future> futures = nativeProducer.sendMessages("test", messages);
 
     }
 
@@ -46,7 +48,7 @@ public class VanillaProducerTest {
         List<String> messages = new ArrayList<>();
         messages.add("I will never arrive");
 
-        List<Future> futures = vanillaProducer.sendMessages("not_existing_topic", messages);
+        //List<Future> futures = nativeProducer.sendMessages("not_existing_topic", messages);
 
     }
 }

@@ -7,6 +7,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
@@ -30,10 +31,10 @@ public class SimpleProducer {
 
     private SenderOptions<Integer, String> senderOptions;
 
-    public SimpleProducer(String bootstrapServers) {
+    public SimpleProducer() {
 
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "sample-producer");
         props.put(ProducerConfig.ACKS_CONFIG, "all");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
@@ -67,7 +68,7 @@ public class SimpleProducer {
     public static void main(String[] args) throws Exception {
         int count = 20;
         CountDownLatch latch = new CountDownLatch(count);
-        SimpleProducer producer = new SimpleProducer(BOOTSTRAP_SERVERS);
+        SimpleProducer producer = new SimpleProducer();
         producer.sendMessages(TOPIC, count, latch);
         latch.await(1, TimeUnit.SECONDS);
         producer.close();

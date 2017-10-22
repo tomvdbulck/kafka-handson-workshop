@@ -1,24 +1,21 @@
-package be.ordina.workshop.kafkaexercises.vanilla;
+package be.ordina.workshop.kafkaexercises.kafka_native;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.KafkaFuture;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
-/**
- * Created by ToVn on 02/10/17.
- */
-public class VanillaProducer {
+@Component
+public class NativeProducer {
 
     private final Properties props;
 
 
-    public VanillaProducer() {
+    public NativeProducer() {
 
         props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
