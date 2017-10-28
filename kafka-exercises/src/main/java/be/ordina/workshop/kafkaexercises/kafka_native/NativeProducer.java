@@ -33,12 +33,14 @@ public class NativeProducer {
     public List<Future> sendMessages(final String topic, final List<String> messages) {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(props);
-
         List<Future> futures = new ArrayList<>();
 
-        for (String message : messages) {
-            futures.add(producer.send(new ProducerRecord<>(topic, message)));
-        }
+
+        messages.forEach(m -> futures.add(producer.send(new ProducerRecord<>(topic, m))));
+
+        //for (String message : messages) {
+        //    futures.add(producer.send(new ProducerRecord<>(topic, message)));
+        //}
 
         producer.close();
 

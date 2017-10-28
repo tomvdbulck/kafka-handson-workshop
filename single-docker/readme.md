@@ -27,6 +27,14 @@ Go to [Apache Kafka Quickstart](https://kafka.apache.org/quickstart) and downloa
 You can use the provided scripts to connect with the zookeeper and kafka of the docker container.
 
 The docker container has the same version, by connecting to the docker container itself and navigating the the KAFKA_HOME folder you can execute the same scripts.
+```bash
+> docker ps
+> docker exec -it <CONTAINER_ID> bash
+
+> cd opt/kafka_2.11-0.11.0.1/
+```
+
+
 
 ### Create a topic
 Create a topic

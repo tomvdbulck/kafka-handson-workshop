@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@RestController(value = "/native")
+@RestController
+@RequestMapping("/native")
 @Slf4j
-public class NativeController {
+public class NativeController implements  KafkaController{
 
     private final NativeConsumer consumer;
 
@@ -26,7 +27,8 @@ public class NativeController {
     }
 
 
-    @GetMapping()
+    @Override
+    @GetMapping
     public ResponseEntity<ReadResponse> getMessages(@RequestParam final String topic) {
 
         log.info("Reading messages from topic: " + topic);
@@ -36,7 +38,8 @@ public class NativeController {
         return ok(new ReadResponse());
     }
 
-    @PostMapping()
+    @Override
+    @PostMapping
     public ResponseEntity writeMessages(@RequestBody final WriteRequest request) {
 
         log.info("Sending messages to topic: " + request.getTopic());
