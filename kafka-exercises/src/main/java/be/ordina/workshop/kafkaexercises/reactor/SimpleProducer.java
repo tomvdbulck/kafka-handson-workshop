@@ -44,7 +44,7 @@ public class SimpleProducer {
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
     }
 
-    public void sendMessages(String topic, List<String> messages)  {
+    public void sendMessages(final String topic, final List<String> messages)  {
         final KafkaSender<Integer, String> sender = KafkaSender.create(senderOptions);
 
         final CountDownLatch latch = new CountDownLatch(messages.size());

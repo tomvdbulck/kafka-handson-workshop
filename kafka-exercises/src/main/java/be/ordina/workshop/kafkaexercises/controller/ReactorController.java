@@ -28,15 +28,15 @@ public class ReactorController implements KafkaController {
 
     @Override
     @GetMapping
-    public ResponseEntity<ReadResponse> getMessages(@RequestParam String topic) {
+    public ResponseEntity<ReadResponse> getMessages(@RequestParam final String topic) {
 
-        return ok(new ReadResponse(simpleConsumer.readMessages(topic, null)));
+        return ok(new ReadResponse(simpleConsumer.readMessages(topic)));
     }
 
 
     @Override
     @PostMapping
-    public ResponseEntity writeMessages(@RequestBody WriteRequest request) {
+    public ResponseEntity writeMessages(@RequestBody final WriteRequest request) {
 
         simpleProducer.sendMessages(request.getTopic(), request.getMessages());
 

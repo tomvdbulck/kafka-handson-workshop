@@ -17,19 +17,19 @@ public class SpringCloudStreamKafkaController implements KafkaController{
 
     @Override
     @GetMapping
-    public ResponseEntity<ReadResponse> getMessages(@RequestParam String topic) {
+    public ResponseEntity<ReadResponse> getMessages(@RequestParam final String topic) {
         return null;
     }
 
     @Override
     @PostMapping
-    public ResponseEntity writeMessages(@RequestBody WriteRequest request) {
+    public ResponseEntity writeMessages(@RequestBody final WriteRequest request) {
         return null;
     }
 
 
     @PostMapping(value = "connectToKafka")
-    public ResponseEntity connectToKafka (@RequestParam boolean connectToKafka) {
+    public ResponseEntity connectToKafka (@RequestParam final boolean connectToKafka) {
         this.connectToKafka = connectToKafka;
 
         return ResponseEntity.ok(null);

@@ -21,7 +21,7 @@ public class TopicController {
     private final TopicService topicService;
 
     @Autowired
-    public TopicController(TopicService topicService) {
+    public TopicController(final TopicService topicService) {
         this.topicService = topicService;
     }
 
