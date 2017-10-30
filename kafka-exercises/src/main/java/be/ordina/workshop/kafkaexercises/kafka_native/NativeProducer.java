@@ -30,7 +30,7 @@ public class NativeProducer {
 
     }
 
-    public List<Future> sendMessages(final String topic, final List<String> messages) {
+    public void sendMessages(final String topic, final List<String> messages) {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(props);
         List<Future> futures = new ArrayList<>();
@@ -44,6 +44,7 @@ public class NativeProducer {
 
         producer.close();
 
-        return futures;
+
+        //return futures;
     }
 }

@@ -29,13 +29,12 @@ public class NativeController implements  KafkaController{
 
     @Override
     @GetMapping
-    public ResponseEntity<ReadResponse> getMessages(@RequestParam final String topic) {
+    public ResponseEntity<ReadResponse> getMessages(@RequestParam(name = "topic") final String topic) {
 
         log.info("Reading messages from topic: " + topic);
 
-        consumer.readMessages(topic);
 
-        return ok(new ReadResponse());
+        return ok(new ReadResponse(consumer.readMessages(topic)));
     }
 
     @Override
