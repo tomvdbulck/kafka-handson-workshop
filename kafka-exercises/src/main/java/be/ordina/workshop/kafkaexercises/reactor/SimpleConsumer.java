@@ -14,27 +14,24 @@ import reactor.kafka.receiver.ReceiverOptions;
 import reactor.kafka.receiver.ReceiverRecord;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Component
 public class SimpleConsumer {
     private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String TOPIC = "reactor-test";
 
     private final ReceiverOptions<Integer, String> receiverOptions;
     private final SimpleDateFormat dateFormat;
 
-    public SimpleConsumer(String bootstrapServers) {
+    public SimpleConsumer() {
 
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, "sample-consumer");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "sample-group");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
@@ -42,13 +39,16 @@ public class SimpleConsumer {
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
     }
 
-    public Disposable consumeMessages(String topic, CountDownLatch latch) {
+    public List<String> readMessages(String topic, CountDownLatch latch) {
+
+        List<String> messages = new ArrayList<>();
+
 
         ReceiverOptions<Integer, String> options = receiverOptions.subscription(Collections.singleton(topic))
                 .addAssignListener(partitions -> log.debug("onPartitionsAssigned {}", partitions))
                 .addRevokeListener(partitions -> log.debug("onPartitionsRevoked {}", partitions));
         Flux<ReceiverRecord<Integer, String>> kafkaFlux = KafkaReceiver.create(options).receive();
-        return kafkaFlux.subscribe(record -> {
+        kafkaFlux.subscribe(record -> {
             ReceiverOffset offset = record.receiverOffset();
             System.out.printf("Received message: topic-partition=%s offset=%d timestamp=%s key=%d value=%s\n",
                     offset.topicPartition(),
@@ -60,14 +60,15 @@ public class SimpleConsumer {
             latch.countDown();
         });
 
+        return messages;
     }
 
     public static void main(String[] args) throws Exception {
         int count = 20;
         CountDownLatch latch = new CountDownLatch(count);
-        SimpleConsumer consumer = new SimpleConsumer(BOOTSTRAP_SERVERS);
-        Disposable disposable = consumer.consumeMessages(TOPIC, latch);
+        //SimpleConsumer consumer = new SimpleConsumer(BOOTSTRAP_SERVERS);
+        //Disposable disposable = consumer.consumeMessages(TOPIC, latch);
         latch.await(1, TimeUnit.SECONDS);
-        disposable.dispose();
+        //disposable.dispose();
     }
 }

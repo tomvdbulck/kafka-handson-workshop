@@ -16,17 +16,17 @@ import reactor.kafka.sender.SenderRecord;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
+@Component
 public class SimpleProducer {
     private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String TOPIC = "reactor-test";
 
-    private final KafkaSender<Integer, String> sender;
     private final SimpleDateFormat dateFormat;
 
     private SenderOptions<Integer, String> senderOptions;
@@ -41,36 +41,34 @@ public class SimpleProducer {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         senderOptions = SenderOptions.create(props);
 
-        sender = KafkaSender.create(senderOptions);
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
     }
 
-    public void sendMessages(String topic, int count, CountDownLatch latch) throws InterruptedException {
-        sender.send(Flux.range(1, count)
-                .map(i -> SenderRecord.create(new ProducerRecord<>(topic, i, "Message_" + i), i)))
-                .doOnError(e-> log.error("Send failed", e))
-                .subscribe(r -> {
-                    RecordMetadata metadata = r.recordMetadata();
-                    System.out.printf("Message %d sent successfully, topic-partition=%s-%d offset=%d timestamp=%s\n",
-                            r.correlationMetadata(),
-                            metadata.topic(),
-                            metadata.partition(),
-                            metadata.offset(),
-                            dateFormat.format(new Date(metadata.timestamp())));
-                    latch.countDown();
-                });
-    }
+    public void sendMessages(String topic, List<String> messages)  {
+        final KafkaSender<Integer, String> sender = KafkaSender.create(senderOptions);
 
-    public void close() {
-        sender.close();
-    }
+        final CountDownLatch latch = new CountDownLatch(messages.size());
 
-    public static void main(String[] args) throws Exception {
-        int count = 20;
-        CountDownLatch latch = new CountDownLatch(count);
-        SimpleProducer producer = new SimpleProducer();
-        producer.sendMessages(TOPIC, count, latch);
-        latch.await(1, TimeUnit.SECONDS);
-        producer.close();
+        try {
+            latch.await(1, TimeUnit.SECONDS);
+
+            sender.send(Flux.fromIterable(messages)
+                    .map(message -> SenderRecord.create(new ProducerRecord<>(topic, message), message.hashCode())))
+                    .doOnError(e-> log.error("Send failed", e))
+                    .subscribe(r -> {
+                        RecordMetadata metadata = r.recordMetadata();
+                        log.info("Message %d sent successfully, topic-partition=%s-%d offset=%d timestamp=%s\n",
+                                r.correlationMetadata(),
+                                metadata.topic(),
+                                metadata.partition(),
+                                metadata.offset(),
+                                dateFormat.format(new Date(metadata.timestamp())));
+                        latch.countDown();
+                    });
+            sender.close();
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
+
     }
 }

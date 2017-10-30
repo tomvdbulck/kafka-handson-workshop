@@ -6,7 +6,6 @@ import be.ordina.workshop.kafkaexercises.kafka_native.NativeConsumer;
 import be.ordina.workshop.kafkaexercises.kafka_native.NativeProducer;
 import be.ordina.workshop.kafkaexercises.model.WriteRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +44,8 @@ public class NativeController implements  KafkaController{
 
         producer.sendMessages(request.getTopic(), request.getMessages());
 
+        return ok("wrote messages for request:" + request );
 
-        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 }
