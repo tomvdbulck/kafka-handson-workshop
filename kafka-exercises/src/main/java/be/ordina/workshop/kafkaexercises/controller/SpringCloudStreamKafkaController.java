@@ -3,6 +3,7 @@ package be.ordina.workshop.kafkaexercises.controller;
 import be.ordina.workshop.kafkaexercises.model.ReadResponse;
 import be.ordina.workshop.kafkaexercises.model.WriteRequest;
 import be.ordina.workshop.kafkaexercises.spring_cloud.CloudProducer;
+import be.ordina.workshop.kafkaexercises.spring_cloud.StreamHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +17,20 @@ public class SpringCloudStreamKafkaController implements KafkaController{
     private Boolean connectToKafka;
 
     private final CloudProducer cloudProducer;
+    private final StreamHandler streamHandler;
 
     @Autowired
-    public SpringCloudStreamKafkaController(final CloudProducer cloudProducer) {
+    public SpringCloudStreamKafkaController(final CloudProducer cloudProducer, final StreamHandler streamHandler) {
         this.cloudProducer = cloudProducer;
+        this.streamHandler = streamHandler;
         connectToKafka = false;
     }
 
     @Override
     @GetMapping
     public ResponseEntity<ReadResponse> getMessages(@RequestParam final String topic) {
-        return null;
+
+        return ResponseEntity.ok(new ReadResponse(streamHandler.getMessages()));
     }
 
     @Override

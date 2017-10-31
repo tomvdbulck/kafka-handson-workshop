@@ -14,7 +14,7 @@ public class CloudProducer {
     private final OutputChannels outputChannels;
 
     @Autowired
-    public CloudProducer(OutputChannels outputChannels) {
+    public CloudProducer(final OutputChannels outputChannels) {
         this.outputChannels = outputChannels;
     }
 
