@@ -2,8 +2,12 @@ package be.ordina.workshop.kafkaexercises.controller;
 
 import be.ordina.workshop.kafkaexercises.model.ReadResponse;
 import be.ordina.workshop.kafkaexercises.model.WriteRequest;
+import be.ordina.workshop.kafkaexercises.spring_cloud.CloudProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/springcloudstream")
@@ -11,7 +15,11 @@ public class SpringCloudStreamKafkaController implements KafkaController{
 
     private Boolean connectToKafka;
 
-    public SpringCloudStreamKafkaController() {
+    private final CloudProducer cloudProducer;
+
+    @Autowired
+    public SpringCloudStreamKafkaController(final CloudProducer cloudProducer) {
+        this.cloudProducer = cloudProducer;
         connectToKafka = false;
     }
 
@@ -24,7 +32,9 @@ public class SpringCloudStreamKafkaController implements KafkaController{
     @Override
     @PostMapping
     public ResponseEntity writeMessages(@RequestBody final WriteRequest request) {
-        return null;
+        cloudProducer.sendMessages(request.getMessages());
+
+        return ok().build();
     }
 
 
@@ -32,6 +42,6 @@ public class SpringCloudStreamKafkaController implements KafkaController{
     public ResponseEntity connectToKafka (@RequestParam final boolean connectToKafka) {
         this.connectToKafka = connectToKafka;
 
-        return ResponseEntity.ok(null);
+        return ok(null);
     }
 }

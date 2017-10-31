@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    stream:
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host:
+          defaultCandidate: false
+        kafka1:
+          type: kafka
+          defaultCandidate: true
