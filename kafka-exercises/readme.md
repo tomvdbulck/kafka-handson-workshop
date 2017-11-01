@@ -108,12 +108,12 @@ Implement in NativeConsumer.java the readMessages() method.
 When done, test with:`
 GET to http://localhost:8080/native?topic=test: 
 
+#### Some remarks: 
 If you run the method again - you will see no more messages.
 Think about the offset.
 
 POST some other messages and run the GET again => this should return the existing messages.
 
-Please note:
 You can also only consume messages which are fully committed.
 
 
@@ -124,6 +124,7 @@ Now lets go the reactive way.
 ### Producer
 
 Implement in SimpleProducer.java the sendMessages() method.
+See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java) for sample reactive producer. 
 
 When implemented send the postman request.
 POST to http://localhost:8080/reactor:
@@ -134,17 +135,16 @@ POST to http://localhost:8080/reactor:
 }
 ```
 
-By default when you send a message to a topic which has not been created - it will be created automatically.
 
-
-Verify with http://localhost:8080/topics that the topic has indeed been created.
 
 #### Consumer
 
 Implement in SimpleConsumer.java the readMessages() method.
+See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java) for sample reactive consumer.
 
 When done, test with:`
 GET to http://localhost:8080/reactor?topic=test: 
 
-
+##### Remarks
+Use the latch.countDown() to countdown the messages you have received an generate the interrupt faster so you do not have to await on the .await()
 

@@ -58,22 +58,15 @@ public class SimpleConsumer {
 
 
             Flux<ReceiverRecord<Integer, String>> kafkaFlux = kafkaReceiver.receive();
-            Disposable disposable = kafkaFlux.subscribe(record -> {
-                ReceiverOffset offset = record.receiverOffset();
-                log.info("Received message: topic-partition=%s offset=%d timestamp=%s key=%d value=%s\n",
-                        offset.topicPartition(),
-                        offset.offset(),
-                        dateFormat.format(new Date(record.timestamp())),
-                        record.key(),
-                        record.value());
-                messages.add(record.value());
-                offset.acknowledge();
-                latch.countDown();
-            });
+            Disposable disposable = null;
+            //TODO use the Flux, Luke ...
 
             latch.await(2, TimeUnit.SECONDS);
 
-            disposable.dispose();
+            if (disposable != null) {
+                disposable.dispose();
+            }
+
         }catch (InterruptedException e) {
             log.error(e.getMessage());
         }
@@ -81,12 +74,4 @@ public class SimpleConsumer {
         return messages;
     }
 
-    public static void main(String[] args) throws Exception {
-        int count = 20;
-        CountDownLatch latch = new CountDownLatch(count);
-        //SimpleConsumer consumer = new SimpleConsumer(BOOTSTRAP_SERVERS);
-        //Disposable disposable = consumer.consumeMessages(TOPIC, latch);
-        latch.await(1, TimeUnit.SECONDS);
-        //disposable.dispose();
-    }
 }

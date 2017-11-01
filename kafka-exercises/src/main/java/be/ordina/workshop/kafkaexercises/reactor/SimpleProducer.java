@@ -50,22 +50,12 @@ public class SimpleProducer {
         final CountDownLatch latch = new CountDownLatch(messages.size());
 
         try {
-            latch.await(1, TimeUnit.SECONDS);
 
-            sender.send(Flux.fromIterable(messages)
-                    .map(message -> SenderRecord.create(new ProducerRecord<>(topic, message), message.hashCode())))
-                    .doOnError(e-> log.error("Send failed", e))
-                    .subscribe(r -> {
-                        RecordMetadata metadata = r.recordMetadata();
-                        log.info("Message %d sent successfully, topic-partition=%s-%d offset=%d timestamp=%s\n",
-                                r.correlationMetadata(),
-                                metadata.topic(),
-                                metadata.partition(),
-                                metadata.offset(),
-                                dateFormat.format(new Date(metadata.timestamp())));
-                        latch.countDown();
-                    });
+            //TODO use the sender.send( ...
+
             sender.close();
+
+            latch.await(1, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
