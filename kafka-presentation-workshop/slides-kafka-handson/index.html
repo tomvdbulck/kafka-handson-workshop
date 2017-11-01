@@ -165,7 +165,18 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </aside>
                 </section>
                 <section>
-                    <h2>Brokers</h2>    
+                    <h2>Brokers</h2>   
+                    <p>
+                        Node, Broker, Kafka Server => all the same
+                    </p>
+                    <p>
+                        Hosts topics<br/>
+                        Stores messages
+                    </p>
+                    <aside class="notes">
+                        Stores messages on disk by a unique offset
+                        Shares information between other brokers and zookeeper
+                    </aside>
                 </section>
                 <section>
                     <h2>The Controller</h2>  
@@ -179,10 +190,33 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </aside>
                 </section>
                 <section>
-                    <h2>Topics</h2>    
+                    <h2>Topics</h2>  
+                    <p>
+                        Virtual Group of partitions
+                    </p>
+                    <p>
+                        Producers write messages.
+                        Consumes read messages.
+                    </p>
                 </section>
                 <section>
                     <h2>Partitions</h2>    
+                    <p>
+                        Topics are split in partitions.<br/>
+                        1 broker is leader.
+                    </p>
+                    <p>
+                        Used to scale.
+                    </p>
+                    <aside class="notes">
+                        Producers and Consumer only speak with the leader.
+                        
+                        A list of insync replica's is maintained by the brokers / partition.
+                        New leader is elected if required.
+                        
+                        Used to scale up or down the cluster.
+                        As consumers and producers approach the cluster via partitions.
+                    </aside>
                 </section>
                 <section>
                     <h2>Partitions: Rebalancing</h2>    
@@ -198,25 +232,71 @@ As a result of taking storage seriously and allowing the clients to control thei
                     </aside>
                 </section>
                 <section>
-                    <h2>Replication</h2>    
+                    <h2>Replication</h2>   
+                    <p>
+                        Fail-Over.
+                        Maintain list of In Sync Replicas.
+                    </p>
+                    <p>
+                        Brokers with replica's only keep these in sync with the Partition Master.
+                    </p>
+                    <aside class="notes">
+                    Data from producers is first saved to a commit log before consumers can find out that it is
+available. It will only be visible to consumers when the followers acknowledge that they have
+got the data and stored in their local logs.
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Replication: They all die.</h2>   
+                    <p>
+                        Wait for an ISR replica to come back
+                    </p>
+                    <p>
+                        Or choose the first replica which comes back.
+                    </p>
+                    <aside class="notes">
+                        Tradeoff between availability and consistency.
+                        
+                        By default, Kafka chooses the second strategy and favor choosing a potentially inconsistent replica when all replicas in the ISR are dead. This behavior can be disabled using configuration property unclean.leader.election.enable, to support use cases where downtime is preferable to inconsistency.
+                    </aside>
                 </section>
                 <section>
-                    <h2>Replication: Acknowledgement</h2>    
+                    <h2>Replication: Acknowledgement</h2>  
+                    <p>
+                        Choose for acknowledgement by 0, 1 or all (ISR) Replicas
+                    </p>
+                    <p>
+                        Extra options:
+                        <ul>
+                            <li>Disable unclean leader election.</li>
+                            <li>Minimum ISR size.</li>
+                        </ul>
+                    
+                    </p>
                 </section>
                 <section>
-                    <h2>Producers</h2>    
+                    <h2>Producers</h2>  
+                    <p>
+                        Push messages into Kafka Topics.
+                        <br/>
+                        Can provide partition key.
+                        Message gets forwarded to the leader.
+                    </p>
                 </section>
                 <section>
-                    <h2>Consumers</h2>    
+                    <h2>Consumers</h2>   
+                    <p>
+                    Reads messages from a specific offset.
+                    <br/>
+                    Asks for messages - pull, as not to overload.     
+                    </p>
                 </section>
                 <section>
                     <h2>Consumer Offset</h2>    
                 </section>
                 <section>
                     <h2>Consumer Groups</h2>    
-                </section>
-                <section>
-                    <h2>Fail-Over</h2>    
                 </section>
             </section>
             <section>
