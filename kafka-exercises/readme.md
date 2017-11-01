@@ -24,7 +24,7 @@ If you run the container with the following command you can connect to your kafk
 docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
 ```
 
-### Play with it *optional*
+#### Play with it (*optional*)
 
 Go to [Apache Kafka Quickstart](https://kafka.apache.org/quickstart) and download the latest release.
 You can use the provided scripts to connect with the zookeeper and kafka of the docker container.
@@ -38,8 +38,7 @@ The docker container has the same version, by connecting to the docker container
 ```
 
 
-
-##### Create a topic *optional*
+##### Create a topic (*optional*)
 Create a topic
 ```bash
 > bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic mytest
@@ -51,7 +50,7 @@ With the following command you can see the existing topics
 ```
 
 
-##### Produce messages *optional*
+##### Produce messages (*optional*)
 
 
 ```bash
@@ -59,7 +58,7 @@ With the following command you can see the existing topics
 This is a message
 This is another message
 ```
-#### Consume messages
+#### Consume messages (*optional*)
 ```bash
 > bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mytest --from-beginning
 ```

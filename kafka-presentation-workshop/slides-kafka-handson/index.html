@@ -568,7 +568,7 @@ got the data and stored in their local logs.
             <section>
                 <section>
                     <h2>Hands On</h2>
-                
+                    <p>https://github.com/tomvdbulck/kafka-handson-workshop</p>
                 </section>
                 
                 <section>
@@ -582,7 +582,7 @@ got the data and stored in their local logs.
                             <li>DIY: Native</li>
                             <li>DIY: Reactor</li>
                             <li>DIY: Spring Cloud Stream</li>
-                            <li>DIY: Use RabbitMQ</li>
+                            <li>DIY: Bunny Time</li>
                         </ul>
                     </p>
                 </section>
@@ -659,130 +659,45 @@ got the data and stored in their local logs.
                 </section>
                 <section>
                     <h2>DIY: Native</h2>
+                    <img width="75%" src="img/native-producer.png">
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Native</h2>
+                    <img width="50%" src="img/native-consumer.png">
                     <aside class="notes"></aside>
                 </section>
                 <section>
                     <h2>DIY: Reactor</h2>
+                    <img width="75%" src="img/reactor-producer.png">
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Reactor</h2>
+                    <img width="50%" src="img/reactor-consumer.png">
                     <aside class="notes"></aside>
                 </section>
                 <section>
                     <h2>DIY: Spring Cloud Stream</h2>
+                    <img width="75%" src="img/springcloud-producer.png">
                     <aside class="notes"></aside>
                 </section>
                 <section>
-                    <h2>DIY: switch to RabbitMQ</h2>
+                    <h2>DIY: Spring Cloud Stream</h2>
+                    <img width="50%" src="img/springcloud-consumer.png">
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Bunny Time</h2>
+                    <img width="50%" src="img/bunny-time.gif">
+                </section>
+                <section>
+                    <h2>DIY: Bunny Time</h2>
                     <img width="50%" src="img/set-rabbitmq.png">
-                    <p>set defaultCandidate of rabbit to true</p>
+                    <p>switch to RabbitMQ: set defaultCandidate of rabbit to true</p>
                 </section>
 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                <section>
-                    <h2>Docker</h2>
-                    <ul>
-                        <li>Build: standardized way using Docker CLI in a DockerFile</li>
-                        <li>Ship: share the container - it is just a file</li>
-                        <li>Run: less overhead then a VM</li>
-                    </ul>
-                    <aside class="notes">
-                        Docker runs on a minimal operation system so it has much less overhead then a traditional VM.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Docker Compose</h2>
-                    <ul>
-                        <li>Multi-container applications</li>
-                        <li>docker-compose.yml</li>
-                        <li>Software defined network</li>
-                    </ul>
-                    <aside class="notes">
-                        Defined in a docker-compose file: great tool for setting up development, staging and CI environments.
-                        
-                        Docker-compose helps you by linking these containers.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Single Container: DockerFile</h2>
-                    <img width="100%" src="img/single/download-smaller.png">
-                    <aside class="notes">
-                        Based on the Spotify Kafka Docker image.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Single Container: Get Started</h2>
-                    <p>Create the image</p>
-                     <pre><code data-trim contenteditable>
-                     docker build -t kafka-zookeeper .
-                     </code></pre>
-                    <p>Startup the container</p>
-                    <pre><code data-trim contenteditable>
-                     docker run --name a_name -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
-                     </code></pre>
-                </section>
-                <section>
-                    <h2>Single Container: Get Started</h2>
-                    <p>Access Kafka from outside the container: add the following parameters</p>
-                     <pre><code data-trim contenteditable>
-                     -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092
-                     </code></pre>
-                </section>
-                <section>
-                    <h2>Single Container: Topics</h2>
-                    <p>1 container with both Zookeeper and Kafka</p>
-                    <pre><code data-trim contenteditable>
-                    > bin/kafka-topics.sh --create --zookeeper localhost:2181 
-                    --replication-factor 1 --partitions 10 --topic test
-                     </code></pre>
-                    <p>Retrieve a list of topics on Zookeeper</p>
-                    <pre><code data-trim contenteditable>
-                    > bin/kafka-topics.sh --list --zookeeper localhost:2181
-                     </code></pre>
-                    <p>Describe a topic: leader / replicated nodes</p>
-                    <pre><code data-trim contenteditable>
-                    > bin/kafka-topics.sh --describe --zookeeper localhost:2181
-                     </code></pre>
-                    <aside class="notes">
-                        You can have as much partitions as you want - but for replication you will need more then 1 node.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Single Container: Publish and Subscribe</h2>
-                    <p>Producer</p>
-                    <pre><code data-trim contenteditable>
-                    > bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
-This is a message
-This is another message
-                     </code></pre>
-                    <p>Single Container: Consumer</p>
-                    <pre><code data-trim contenteditable>
-                    > bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 
-                    --topic test --from-beginning
-                     </code></pre>
-                </section>
-                <section>
-                    <h2>Single Container: Result</h2>
-                    <ul>
-                        <li>Single Container</li>
-                        <li>1 zookeeper and 1 kafka node</li>
-                        <li>Data not stored</li>
-                    </ul>
-                </section>
-                
-                <section>
-                    <h2>Demo: Do It Yourself</h2>
-                    <p>https://github.com/tomvdbulck/kafka-docker</p>
-                </section>
             </section>
 
             
