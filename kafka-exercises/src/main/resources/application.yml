@@ -11,7 +11,7 @@ spring:
                 port: 5672
                 username: guest
                 password: guest
-          defaultCandidate: true
+          defaultCandidate: false
         kafka1:
           type: kafka
-          defaultCandidate: false
+          defaultCandidate: true

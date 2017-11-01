@@ -121,7 +121,7 @@ You can also only consume messages which are fully committed.
 
 Now lets go the reactive way.
 
-### Producer
+#### Producer
 
 Implement in SimpleProducer.java the sendMessages() method.
 See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java) for sample reactive producer. 
@@ -135,7 +135,7 @@ POST to http://localhost:8080/reactor:
 }
 ```
 
-
+You can update the call the nativeConsumer to see if messages effectively got produced.
 
 #### Consumer
 
@@ -148,3 +148,45 @@ GET to http://localhost:8080/reactor?topic=test:
 ##### Remarks
 Use the latch.countDown() to countdown the messages you have received an generate the interrupt faster so you do not have to await on the .await()
 
+### Spring Cloud
+
+#### Producer
+
+Define an output channel with the name testCloud in OutputChannels.java.
+
+Implement sendMessages in CloudProducer, use the outputchannel you defined.
+When implemented send the postman request.
+POST to http://localhost:8080/springcloudstream:
+```
+{
+"messages":["messageCloud1", "messageBewolkt"], 
+"topic":"test"
+}
+```
+
+The design is indeed not perfect - topic:test is not used by this producer.
+
+You can update the call the nativeConsumer to see if messages effectively got produced.
+
+#### Consumer
+
+Implement the StreamHandler.
+
+Spring Cloud streams is not ideally suited for this use case ... normally seen you subscribe to a topic and then you process the messages when these are published.
+
+The StreamHandler uses some fuzzy logic to capture every message you send to testCloud, as soon as you startup the application.
+When you request messages - it stops the consumer and returns the already collected list - then subscribes again on the topic.
+
+
+#### RabbitMQ
+Download RabbitMQ [here](https://www.rabbitmq.com/download.html)
+
+Go to `localhost:15672` and login with guest/guest.
+
+Now go to application.yml and set the `defaultCandidate` of kafka to false and that of rabbitMQ to true.
+Do check the port config of RabbitMQ.
+
+The same logic should now also work for RabbitMQ.
+
+Calling the nativeConsumer should now not return the messages you produced on RabbitMQ.
+If it still does, this exercise is not complete as you are still not writing to RabbitMQ.
