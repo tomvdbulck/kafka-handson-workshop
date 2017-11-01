@@ -511,12 +511,22 @@ got the data and stored in their local logs.
                 
                 <section>
                     <h2>Producer API</h2>
-                    
-                
+                    <img width="50%" src="img/kafka-producer.png">
+                </section>
+                 <section>
+                    <h2>Producer API</h2>
+                    <img width="50%" src="img/producer-example.png">
                 </section>
                 
                 <section>
                     <h2>Consumer API</h2>
+                    <img width="50%" src="img/kafka-consumer.png">
+                    
+                
+                </section>
+                 <section>
+                    <h2>Consumer API</h2>
+                    <img width="50%" src="img/consumer-example.png">
                     
                 
                 </section>
@@ -546,7 +556,14 @@ got the data and stored in their local logs.
                 
                 <section>
                     <h2>Connectors</h2>
-                    
+                    <p>
+                        Stream data between kafka and other systems.<br/>
+                        Source connectors: import <br/>
+                        Sink connectors: export <br/>
+                    </p>
+                    <aside class="notes">
+                    See: https://kafka.apache.org/documentation.html#connect
+                    </aside>
                 
                 </section>
     
@@ -566,6 +583,7 @@ got the data and stored in their local logs.
                         <ul>
                             <li>Prerequisites</li>
                             <li>Docker</li>
+                            <li>Postman</li>
                             <li>RabbitMQ</li>
                             <li>The application</li>
                             <li>DIY: Native</li>
@@ -581,7 +599,30 @@ got the data and stored in their local logs.
                 </section>
                 <section>
                     <img width="50%" src="img/docker-horizontal.png">
-                    <aside class="notes"></aside>
+                    <p>
+                        
+                    
+                    </p>
+                    <aside class="notes">
+                        open a shell and go to /single-docker
+                        
+                        > docker build -t kafka-zookeeper .
+                        
+                        > docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
+                        
+                    
+                    </aside>
+                </section>
+                <section>
+                    <img width="50%" src="img/postman-logo.svg">
+                    <p>
+                        Install Postman: https://www.getpostman.com/<br/>
+                        Import the collection: kafka-workshop.postman_collection.json.
+                    </p>
+                    <aside class="notes">
+                        Install Postman: https://www.getpostman.com/
+                        Import the collection: kafka-workshop.postman_collection.json.
+                    </aside>
                 </section>
                 <section>
                     <img width="50%" src="img/RabbitMQ-logo.svg">

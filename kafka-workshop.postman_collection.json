@@ -1,0 +1,240 @@
+{
+	"info": {
+		"name": "kafka-workshop",
+		"_postman_id": "103f0379-b7b9-43bd-6f9c-ee43335dc6df",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/topics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/topics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topics"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/topics/describe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/topics/describe?topics=test,testCloud",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topics",
+						"describe"
+					],
+					"query": [
+						{
+							"key": "topics",
+							"value": "test,testCloud",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/native",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"message1\", \"message2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/native",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"native"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/reactor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"messageReactor1\", \"messageReactor2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/reactor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reactor"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/springcloudstream",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"cloud1\", \"cloud2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/springcloudstream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"springcloudstream"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/native",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"message1\", \"message2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/native?topic=testCloud",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"native"
+					],
+					"query": [
+						{
+							"key": "topic",
+							"value": "testCloud",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/springcloudstream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"message1\", \"message2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/springcloudstream?topic=test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"springcloudstream"
+					],
+					"query": [
+						{
+							"key": "topic",
+							"value": "test",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/reactor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"messages\":[\"message1\", \"message2\"], \n\"topic\":\"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/reactor?topic=test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reactor"
+					],
+					"query": [
+						{
+							"key": "topic",
+							"value": "test",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
