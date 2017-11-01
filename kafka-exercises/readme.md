@@ -24,7 +24,7 @@ If you run the container with the following command you can connect to your kafk
 docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
 ```
 
-### Play with it
+### Play with it *optional*
 
 Go to [Apache Kafka Quickstart](https://kafka.apache.org/quickstart) and download the latest release.
 You can use the provided scripts to connect with the zookeeper and kafka of the docker container.
@@ -39,10 +39,10 @@ The docker container has the same version, by connecting to the docker container
 
 
 
-##### Create a topic
+##### Create a topic *optional*
 Create a topic
 ```bash
-> bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+> bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic mytest
 ```
 
 With the following command you can see the existing topics
@@ -51,23 +51,17 @@ With the following command you can see the existing topics
 ```
 
 
-##### Produce messages
+##### Produce messages *optional*
 
-If you did not pass the ADVERTISED_HOST you will need to open a shell to your docker container and run the commands from within the container.
-```bash
-> docker exec -it [container-id or container-name] bash
-
-> cd opt/kafka_2.11-0.11.0.1
-```
 
 ```bash
-> bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+> bin/kafka-console-producer.sh --broker-list localhost:9092 --topic mytest
 This is a message
 This is another message
 ```
 #### Consume messages
 ```bash
-> bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+> bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mytest --from-beginning
 ```
 
 
@@ -78,14 +72,17 @@ Install Postman: [https://www.getpostman.com/](https://www.getpostman.com/)
 
 Import the collection: kafka-workshop.postman_collection.json.
 
+Disclaimer: I just ran the export ;-)
+
 
 ## Exercises
 
-### Native
+### 1. Native
 
-#### Producer
+#### 1.1 Producer
 
 Implement in NativeProducer.java the sendMessages() method.
+See [javadoc](https://kafka.apache.org/100/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html)
 
 When implemented send the postman request.
 POST to http://localhost:8080/native:
@@ -101,14 +98,15 @@ By default when you send a message to a topic which has not been created - it wi
 
 Verify with http://localhost:8080/topics that the topic has indeed been created.
 
-#### Consumer
+#### 1.2 Consumer
 
 Implement in NativeConsumer.java the readMessages() method.
+See [Javadoc](https://kafka.apache.org/100/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html)
 
 When done, test with:`
 GET to http://localhost:8080/native?topic=test: 
 
-#### Some remarks: 
+#### 1.3 Some remarks: 
 If you run the method again - you will see no more messages.
 Think about the offset.
 
@@ -117,11 +115,11 @@ POST some other messages and run the GET again => this should return the existin
 You can also only consume messages which are fully committed.
 
 
-### Reactor
+### 2. Reactor
 
 Now lets go the reactive way.
 
-#### Producer
+#### 2.1 Producer
 
 Implement in SimpleProducer.java the sendMessages() method.
 See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java) for sample reactive producer. 
@@ -137,7 +135,7 @@ POST to http://localhost:8080/reactor:
 
 You can update the call the nativeConsumer to see if messages effectively got produced.
 
-#### Consumer
+#### 2.2 Consumer
 
 Implement in SimpleConsumer.java the readMessages() method.
 See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java) for sample reactive consumer.
@@ -145,12 +143,12 @@ See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.ja
 When done, test with:`
 GET to http://localhost:8080/reactor?topic=test: 
 
-##### Remarks
+##### 2.3 Remarks
 Use the latch.countDown() to countdown the messages you have received an generate the interrupt faster so you do not have to await on the .await()
 
-### Spring Cloud
+### 3. Spring Cloud
 
-#### Producer
+#### 3.1 Producer
 
 Define an output channel with the name testCloud in OutputChannels.java.
 
@@ -168,7 +166,7 @@ The design is indeed not perfect - topic:test is not used by this producer.
 
 You can update the call the nativeConsumer to see if messages effectively got produced.
 
-#### Consumer
+#### 3.2 Consumer
 
 Implement the StreamHandler.
 
@@ -178,7 +176,7 @@ The StreamHandler uses some fuzzy logic to capture every message you send to tes
 When you request messages - it stops the consumer and returns the already collected list - then subscribes again on the topic.
 
 
-#### RabbitMQ
+#### 3.3 RabbitMQ
 Download RabbitMQ [here](https://www.rabbitmq.com/download.html)
 
 Go to `localhost:15672` and login with guest/guest.

@@ -489,16 +489,10 @@ got the data and stored in their local logs.
             <section>
                 <section>
                     <h2>Kafka: 4 Core API's</h2>
-                    <img width="50%" src="img/kafka-apis.png">
                 </section>
                 <section>
                     <h2>Kafka: 4 Core API's</h2>
-                    <ul>
-                        <li>Producer API: publish to a topic</li>
-                        <li>Consumer API: subscribe to a topic</li>
-                        <li>Streams API: stream processor</li>
-                        <li>Connector API: resuable producers and consumers</li>
-                    </ul>
+                    <img width="50%" src="img/kafka-apis.png">
                     <aside class="notes">
                         <lu>
                             <li>The Producer API allows an application to publish a stream of records to one or more Kafka topics.</li>
@@ -509,22 +503,26 @@ got the data and stored in their local logs.
                     </aside>
                 </section>
                 
+                
                 <section>
                     <h2>Producer API</h2>
                     <img width="50%" src="img/kafka-producer.png">
+                    <p> Publish to a topic</p>
+                    
                 </section>
                  <section>
                     <h2>Producer API</h2>
-                    <img width="50%" src="img/producer-example.png">
+                    <img width="100%" src="img/producer-example.png">
                 </section>
                 
                 <section>
                     <h2>Consumer API</h2>
                     <img width="50%" src="img/kafka-consumer.png">
+                    <p>Subscribe to a Topic</p>
                 </section>
                  <section>
                     <h2>Consumer API</h2>
-                    <img width="50%" src="img/consumer-example.png">
+                    <img width="100%" src="img/consumer-example.png">
                 </section>
                 
                 
@@ -577,7 +575,6 @@ got the data and stored in their local logs.
                     <h2>Hands On: Agenda</h2>
                     <p>
                         <ul>
-                            <li>Prerequisites</li>
                             <li>Docker</li>
                             <li>Postman</li>
                             <li>RabbitMQ</li>
@@ -590,13 +587,15 @@ got the data and stored in their local logs.
                     </p>
                 </section>
                 <section>
-                    <h2>Pre-Requisites</h2>
-                    <aside class="notes"></aside>
-                </section>
-                <section>
                     <img width="50%" src="img/docker-horizontal.png">
                     <p>
+                        <code>
+                            > docker build -t kafka-zookeeper .
+                        </code><br/>
+                        <code>
+                        > docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
                         
+                        </code>
                     
                     </p>
                     <aside class="notes">
@@ -651,7 +650,11 @@ got the data and stored in their local logs.
                     </aside>
                 </section>
                 <section>
-                    <h2>Docker</h2>
+                    <h2>The Application</h2>
+                    <p>
+                        Simple REST controllers <br/>
+                        Postman is used to send the calls - looks good enough <br/>
+                    </p>
                     <aside class="notes"></aside>
                 </section>
                 <section>
