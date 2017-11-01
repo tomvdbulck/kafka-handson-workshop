@@ -36,14 +36,20 @@ public class StreamHandler {
         });
 
 
-        //TODO you need to do something with that messageHandler ... but what ...
+        inputChannels.testCloud().subscribe(messageHandler);
     }
 
     public List<String> getMessages() {
 
         List<String> messagesToReturn = new ArrayList<>();
 
-        //TODO return the messages
+        if (messageHandler != null) {
+            inputChannels.testCloud().unsubscribe(messageHandler);
+
+            messages.forEach(m -> messagesToReturn.add(m));
+        }
+
+        this.subScribeOnChannel();
 
 
         return messagesToReturn;

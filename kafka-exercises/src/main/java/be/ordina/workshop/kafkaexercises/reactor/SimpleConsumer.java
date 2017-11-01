@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.kafka.receiver.KafkaReceiver;
+import reactor.kafka.receiver.ReceiverOffset;
 import reactor.kafka.receiver.ReceiverOptions;
 import reactor.kafka.receiver.ReceiverRecord;
 
@@ -56,15 +57,22 @@ public class SimpleConsumer {
 
 
             Flux<ReceiverRecord<Integer, String>> kafkaFlux = kafkaReceiver.receive();
-            Disposable disposable = null;
-            //TODO use the Flux, Luke ...
+            Disposable disposable = kafkaFlux.subscribe(record -> {
+                ReceiverOffset offset = record.receiverOffset();
+                log.info("Received message: topic-partition=%s offset=%d timestamp=%s key=%d value=%s\n",
+                        offset.topicPartition(),
+                        offset.offset(),
+                        dateFormat.format(new Date(record.timestamp())),
+                        record.key(),
+                        record.value());
+                messages.add(record.value());
+                offset.acknowledge();
+                latch.countDown();
+            });
 
             latch.await(2, TimeUnit.SECONDS);
 
-            if (disposable != null) {
-                disposable.dispose();
-            }
-
+            disposable.dispose();
         }catch (InterruptedException e) {
             log.error(e.getMessage());
         }

@@ -34,7 +34,19 @@ public class NativeConsumer {
 
         List<String> messages = new ArrayList<>();
 
-        //TODO - implement me
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Arrays.asList(topics));
+
+        ConsumerRecords<String, String> records = consumer.poll(100);
+        for (ConsumerRecord<String, String> record : records) {
+            log.info("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+            messages.add(record.value());
+        }
+        if (records.isEmpty()) {
+            log.info("no messages found on " + topics);
+        }
+
+        consumer.close();
 
         return messages;
 

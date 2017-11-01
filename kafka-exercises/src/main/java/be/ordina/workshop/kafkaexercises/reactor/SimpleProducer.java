@@ -3,13 +3,18 @@ package be.ordina.workshop.kafkaexercises.reactor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
+import reactor.kafka.sender.SenderRecord;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +51,19 @@ public class SimpleProducer {
 
         try {
 
-            //TODO use the sender.send( ...
+            sender.send(Flux.fromIterable(messages)
+                    .map(message -> SenderRecord.create(new ProducerRecord<>(topic, message), message.hashCode())))
+                    .doOnError(e-> log.error("Send failed", e))
+                    .subscribe(r -> {
+                        RecordMetadata metadata = r.recordMetadata();
+                        log.info("Message %d sent successfully, topic-partition=%s-%d offset=%d timestamp=%s\n",
+                                r.correlationMetadata(),
+                                metadata.topic(),
+                                metadata.partition(),
+                                metadata.offset(),
+                                dateFormat.format(new Date(metadata.timestamp())));
+                        latch.countDown();
+                    });
 
             sender.close();
 
