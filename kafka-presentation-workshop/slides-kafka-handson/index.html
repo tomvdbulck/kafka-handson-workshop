@@ -42,6 +42,18 @@
                     https://github.com/tomvdbulck
                 </p>
             </section>
+            
+            <section>
+                <h2>Prerequisites</h2>
+                <p>
+                    https://github.com/tomvdbulck/kafka-handson-workshop
+                </p>
+                <p>
+                    Docker<br/>
+                    Postman<br/>
+                    RabbitMQ<br/>
+                </p>
+            </section>
 
             <!-- **********
                 EDIT FROM HERE
@@ -67,10 +79,12 @@
                 <section>
                     <h2>Kafka</h2>
                     <img width="50%" src="img/kafka_diagram.png">
-                    <aside class="notes"><ul>
+                    
+                    <aside class="notes">
+                    <ul>
                         <li>Messaging</li>
                         <li>Storage data - event log</li>
-                        <li>Store</li>
+                        <li>Streams</li>
                     </ul></aside>
                 </section>
                 
@@ -78,35 +92,26 @@
                 
                 
                 <section>
-                    <h2>Kafka: A Messaging System</h2>
-                    <p> Traditionally 2 models
-                    <ul>
-                        <li>Queueing: process record once</li>
-                        <li>Publish and Subscribe: broadcast</li>
-                        
-                    </ul>
+                    <h2>Kafka: Design Goals</h2>
+                    <p> High volume publish-subscribe message and streams</p>
+                    <p>
+                        Durable<br/>
+                        Fast<br/>
+                        Scalable<br/>
+            
                     </p>
                     <aside class="notes">
-                        Messaging traditionally has two models: queuing and publish-subscribe. In a queue, a pool of consumers may read from a server and each record goes to one of them; in publish-subscribe the record is broadcast to all consumers. Each of these two models has a strength and a weakness. The strength of queuing is that it allows you to divide up the processing of data over multiple consumer instances, which lets you scale your processing. Unfortunately, queues aren't multi-subscriber—once one process reads the data it's gone. Publish-subscribe allows you broadcast data to multiple processes, but has no way of scaling processing since every message goes to every subscriber.
+                        At its essence, Kafka provides a durable message store, similar to a log, run in a server cluster, that stores streams of records in categories called topics
                     </aside>
                 </section>
                 <section>
-                    <h2>Kafka: A Storage System</h2>
-                    <ul>
-                        <li>Kafka is a very good storage system</li>
-                        <li>Written to Disk and Replicated</li>
-                        <li>No Performance Loss</li>
-                        <li>https://www.confluent.io/blog/okay-store-data-apache-kafka/</li>
-                    </ul>
-                    <aside class="notes">
-                        Any message queue that allows publishing messages decoupled from consuming them is effectively acting as a storage system for the in-flight messages. What is different about Kafka is that it is a very good storage system.
-                        Data written to kafka is written to disk and replicated.
-                        Allows producers to wait on acknowledgement so that a write is only considered complete when replicated and guaranteed to persist event if the server fails
+                    <h2>Kafka: Dumb Brokers</h2>
+                    <p>
+                        Smart Consumers <br/>
+                        Retains all messages <br/>
                         
-                        The disk structures Kafka uses scale well—Kafka will perform the same whether you have 50 KB or 50 TB of persistent data on the server.
-
-As a result of taking storage seriously and allowing the clients to control their read position, you can think of Kafka as a kind of special purpose distributed filesystem dedicated to high-performance, low-latency commit log storage, replication, and propagation.
-                    </aside>
+                    </p>
+                    <aside class="notes"></aside>
                 </section>
             </section>
             <section>
@@ -195,7 +200,7 @@ As a result of taking storage seriously and allowing the clients to control thei
                         Virtual Group of partitions
                     </p>
                     <p>
-                        Producers write messages.
+                        Producers write messages.<br/>
                         Consumes read messages.
                     </p>
                 </section>
@@ -234,11 +239,11 @@ As a result of taking storage seriously and allowing the clients to control thei
                 <section>
                     <h2>Replication</h2>   
                     <p>
-                        Fail-Over.
-                        Maintain list of In Sync Replicas.
+                        Fail-Over.<br/>
+                        Each broker: Maintains list of In Sync Replicas.
                     </p>
                     <p>
-                        Brokers with replica's only keep these in sync with the Partition Master.
+                        Brokers with replicas only keep these in sync with the Partition Master.
                     </p>
                     <aside class="notes">
                     Data from producers is first saved to a commit log before consumers can find out that it is
@@ -253,7 +258,8 @@ got the data and stored in their local logs.
                         Wait for an ISR replica to come back
                     </p>
                     <p>
-                        Or choose the first replica which comes back.
+                        Or<br/> 
+                        choose the first replica which comes back.
                     </p>
                     <aside class="notes">
                         Tradeoff between availability and consistency.
@@ -264,26 +270,45 @@ got the data and stored in their local logs.
                 <section>
                     <h2>Replication: Acknowledgement</h2>  
                     <p>
-                        Choose for acknowledgement by 0, 1 or all (ISR) Replicas
+                        Choose for acknowledgement by 0, 1 or all (ISR) Replicas.<br/> 
+                        Only for producers.
                     </p>
                     <p>
-                        Extra options:
-                        <ul>
-                            <li>Disable unclean leader election.</li>
-                            <li>Minimum ISR size.</li>
-                        </ul>
+                        Extra options:<br/> 
+                        
+                        Disable unclean leader election.<br/> 
+                        Minimum ISR size.<br/> 
                     
                     </p>
                 </section>
                 <section>
                     <h2>Producers</h2>  
                     <p>
-                        Push messages into Kafka Topics.
+                        Push messages into Kafka Topics.<br/> 
                         <br/>
-                        Can provide partition key.
+                        Can provide partition key.<br/> 
                         Message gets forwarded to the leader.
                     </p>
                 </section>
+                <section>
+                    <h2>Messages / Records</h2>
+                    <p>
+                        Unique offset within partition.<br/>
+                        Remain until TTL or after compaction.
+                    </p>
+                    <p>
+                        <ul>
+                        <li>key</li>
+                        <li>value</li>
+                        <li>timestamp</li>
+                        </ul>
+                    </p>
+                    <aside class="notes">
+                        Partitioning occurs on this key.
+                        
+                        Please note that offset <> key.
+                    </aside>
+                </section>    
                 <section>
                     <h2>Consumers</h2>   
                     <p>
@@ -291,12 +316,27 @@ got the data and stored in their local logs.
                     <br/>
                     Asks for messages - pull, as not to overload.     
                     </p>
+                    <br/>
+                    Can only read messages which are fully in sync.
                 </section>
                 <section>
-                    <h2>Consumer Offset</h2>    
+                    <h2>Consumer Offset</h2> 
+                    <p>
+                        Stored in Kafka. (previously Zookeeper)
+                        <br/>
+                        Exactly once: read and commit offset in transaction
+                    </p>
+                    <p>
+                        The consumer can change this offset.
+                    </p>
                 </section>
                 <section>
-                    <h2>Consumer Groups</h2>    
+                    <h2>Consumer Groups</h2> 
+                    <p>
+                        1 partition can be read by 1 consumer of the group.
+                        </br>
+                        parallel processing.
+                    </p>
                 </section>
             </section>
             <section>
@@ -311,15 +351,137 @@ got the data and stored in their local logs.
                 </section>
                 <section>
                     <h2>Vs RabbitMQ</h2>    
+
+                    <aside class="notes">
+                    See: https://content.pivotal.io/blog/understanding-when-to-use-rabbitmq-or-apache-kafka
+                    </aside>
+                </section>
+                
+
+                <section>
+                    <h2>Vs RabbitMQ: choose (Rabbit)MQ when: </h2>    
+                    <p>
+                        More control/guarantees per-message.<br/> 
+                        Complex routing to consumers.<br/> 
+                        More variety in: point to point, request/reply and publish/subscribe messaging<br/> 
+                    </p>
+                    <aside class="notes">
+                    
+                    </aside>
+                </section>
+                <section>
+                    <h2>Vs RabbitMQ: Choose Kafka when: </h2>    
+                    <p>
+                        Stream with complex routing.<br/> 
+                        Throughput (100k/sec)<br/>   
+                        Event Sourcing<br/> 
+                        
+                    </p>
+                    <aside class="notes">
+                    
+                    </aside>
+                </section>
+                <section>
+                    <h2>Vs RabbitMQ: choose (Rabbit)MQ when: </h2>    
+                    <p>
+                        
+                        Ease of Operations.<br/> 
+                        Security.<br/>  
+                       
+                    </p>
+                    <aside class="notes">
+                    It is a more mature eco system.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Vs RabbitMQ: choose Kafka when: </h2>    
+                    <p>
+                        Performance.<br/> 
+                        Can deal with large surge of Producers.<br/> 
+                    </p>
+                    <aside class="notes">
+                    
+                    </aside>
+                </section>
+                <section>
+                    <h2>Use Cases</h2>
+                    <p>
+                        LinkedIn </br>
+                        New York Times </br>
+                        Zalando
+                    </p>
                 </section>
                 <section>
                     <h2>Use Case: Linkedin</h2>    
+                    <img width="50%" src="img/apache-kafka-at-linkedin-26-638.jpg">
+                    <p>
+                        Used to move every type of data between other systems.
+                    </p>
+                    <aside class="notes">
+                        See:
+                            https://engineering.linkedin.com/kafka/running-kafka-scale
+                            https://engineering.linkedin.com/blog/2017/08/open-sourcing-kafka-cruise-control
+                    </aside>
                 </section>
                 <section>
-                    <h2>Use Case: New York Times</h2>    
+                    <h2>Use Case: Linkedin</h2>    
+                    <p>
+                        2 trillion messages / day <br/>
+                        1800 brokers<br/> 
+                        650 terabytes consumed for 170 terrabytes of messages (in 2015 - 800 billion msg/day) <br/> 
+                    </p>
                 </section>
                 <section>
-                    <h2>Use Case: Zalando</h2>    
+                    <h2>Use Case: New York Times</h2> 
+                    <img width="50%" src="img/nyt-kafka--old-arch.png">
+                    <p>
+                        API based architecture
+                    </p>
+                    <aside class="notes">
+                        See: https://www.confluent.io/blog/publishing-apache-kafka-new-york-times
+                        The Monolog is our new source of truth for published content. Every system that creates content, when it’s ready to be published, will write it to the Monolog, where it is appended to the end. The actual write happens through a gateway service, which validates that the published asset is compliant with our schema.
+                    </aside>   
+                </section>
+
+                <section>
+                    <h2>Use Case: New York Times</h2> 
+                    <img width="50%" src="img/nyt-kafka-arch.png">
+                    <aside class="notes">
+                    </aside>   
+                </section>
+                <section>
+                    <h2>Use Case: New York Times</h2> 
+                    <img width="50%" src="img/nyt-publish-to-es.png">
+                    <aside class="notes">
+                    </aside>   
+                </section>
+                <section>
+                    <h2>Use Case: New York Times</h2> 
+                    <p>
+                        Simplify development process.<br/>
+                        Tracking of every individual update throughout the system. <br/>
+                        Mental shift for Developers required.
+                    </p>
+                    <aside class="notes">
+                         The fact that all content is coming through the same pipeline is simplifying our software development processes, both for front-end applications and back-end systems. 
+                        
+                        Finally, this is a new way of building applications, and it requires a mental shift for developers who are used to working with databases and traditional pub/sub-models. In order to take full advantage of this setup, we need to build applications in such a way that it is easy to deploy new instances that use replay to recreate their materialized view of the log, and we are putting a lot of effort into providing tools and infrastructure that makes this easy.
+
+
+                    </aside>   
+                </section>
+                <section>
+                    <h2>Use Case: Zalando</h2>       
+                    <p>
+                        New platform:<br/> throughput/capacity<br/> 
+                        democratization of data<br/> 
+                        event-driven system: event source processing<br/> 
+                    
+                    </p>
+                    <aside class="notes">
+                        See: https://jobs.zalando.com/tech/blog/event-first-development---moving-towards-kafka-pipeline-applications/
+                        First choses as the outbound event platform ... just natural to use if for inbound as well => event source processing made easy.
+                    </aside> 
                 </section>
                 
             </section>
@@ -347,9 +509,21 @@ got the data and stored in their local logs.
                     </aside>
                 </section>
                 
+                <section>
+                    <h2>Producer API</h2>
+                    
+                
+                </section>
                 
                 <section>
-                    <h2>Kafka: Kafka Streams</h2>
+                    <h2>Consumer API</h2>
+                    
+                
+                </section>
+                
+                
+                <section>
+                    <h2>Kafka Streams</h2>
                     <img width="50%" src="img/streams-welcome.png">
                     <aside class="notes">
                         Simple and lightweight client library
@@ -369,112 +543,16 @@ got the data and stored in their local logs.
                         Sink Processor: has no down-stream processors
                     </aside>
                 </section>
-    
-    
-            </section>
-        
-        
-            <section>
+                
                 <section>
-                    <h2>Kafka: The Consumer Group</h2>
-                    <p><ul>
-                        <li>Divide Processing - like with a queue</li>
-                        <li>Broadcast to multiple consumer groups - like publish-subscribe</li>
-                        <li>Stronger Ordering Guarantees</li>
-                        <li>Only 1 consumer per consumer group can process a partition</li>
-                    </ul>
-                        
-                    </p>
+                    <h2>Connectors</h2>
                     
-                    <aside class="notes">
-                        Paralel processing over members of a consumer group.
-                        Broadcast to other consumer groups
-                        
-                        This for every topic
-                        
-                        Strong ordering guarantees then traditional systems - queues provide records as received.
-                        But if more consumers process then ordering can be lost.
-                        Thanks to the partitions this ordering can be retained
-                    </aside>
+                
                 </section>
-
-            </section>
-    
-            <section>
-                <section>
-                    <h2>Kafka: Topics and Logs</h2>
-                    <img width="50%" src="img/log_anatomy.png">
-                    <aside class="notes">
-                        A topic is to where records are published - always multi-subscriber (0 - n consumers)
-                        
-                        For each topic Kafka maintains a partitioned log
-                        
-                        Each partition is an ordered, immutable sequence of records that is continuously appended to.
-                        Each record in a partition is assigned an offset, which uniquely identifies each record within a partition.
-                        
-                    </aside>
-                </section>
-                <section>
-                    <h2>Kafka: Topics and Logs</h2>
-                    <ul>
-                        <li>The cluster retains all published records</li>
-                        <li>The consumer controls its offset</li>
-                        <li>Low overhead per consumer</li>
-                    </ul>
-                    <aside class="notes">
-                        All records are retained for a configurable time.
-                        Only overhead per consumer is the current offset of that consumer.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Kafka: Partitions</h2>
-                    <ul>
-                        <li>Allow the system to scale.</li>
-                        <li>Are replicated</li>
-                        <li>Each partition has 1 leader</li>
-                        <li>Guarantees order of records</li>
-                    </ul>
-                    <aside class="notes">
-                        The contents of a partition must fit on 1 server
-                        They are replicated for fault tolerance
-                        Each leader handles all read and write requests, while the followers passively replicate.
-                        Each server acts as a leader for some partitions and follower for others so the load gets distributed.
-                        Kafka only provides a total order over records within a partition, not between different partitions in a topic. Per-partition ordering combined with the ability to partition data by key is sufficient for most applications.
-                    </aside>
-                </section>
-                <section>
-                    <h2>Kafka: Producers</h2>
-                    <ul>
-                        <li>Will assign record to a partition</li>
-                        <li>Round Robin or based on a key</li>
-                    </ul>
-                    <aside class="notes">
-
-                    </aside>
-                </section>
-                <section>
-                    <h2>Kafka: Consumers</h2>
-                    <ul>
-                        <li>Consumers are part of a Consumer Group</li>
-                        <li>1 record published to 1 consumer instance</li>
-                        <li>Partitions will determine max. # of consumers</li>
-                        <li>Scalable within a Consumer Group</li>
-                    </ul>
-                    <aside class="notes">
-                        The contents of a partition must fit on 1 server
-                        They are replicated for fault tolerance
-                        Each leader handles all read and write requests, while the followers passively replicate.
-                        Each server acts as a leader for some partitions and follower for others so the load gets distributed.
-                        The way consumption is implemented in Kafka is by dividing up the partitions in the log over the consumer instances so that each instance is the exclusive consumer of a "fair share" of partitions at any point in time. This process of maintaining membership in the group is handled by the Kafka protocol dynamically. If new instances join the group they will take over some partitions from other members of the group; if an instance dies, its partitions will be distributed to the remaining instances.
-                    </aside>
-                </section>
-    
     
     
             </section>
-
-    
-            
+        
 
             <section>
                 <section>
@@ -499,7 +577,64 @@ got the data and stored in their local logs.
                 </section>
                 <section>
                     <h2>Pre-Requisites</h2>
+                    <aside class="notes"></aside>
                 </section>
+                <section>
+                    <img width="50%" src="img/docker-horizontal.png">
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <img width="50%" src="img/RabbitMQ-logo.svg">
+                    <p>
+                        https://www.rabbitmq.com/download.html
+                    </p>
+                    <p>
+                        <img width="50%" src="img/rabbitmq-config.png">
+                    </p>
+                    <p>
+                        Go to http://localhost:15672/ <br/>
+                        Use: guest/guest (super safe)
+                    </p>
+                    <p>
+                        Verify if the port config in application.yml corresponds.
+                    </p>
+                    <aside class="notes">
+                        https://www.rabbitmq.com/download.html
+                        
+                        > brew install rabbitmq
+                        
+                        > cd /usr/local/sbin
+                        
+                        > ./rabbitmq-server
+                        
+                        Go to http://localhost:15672/
+                        
+                        User/Pwd: guest / guest
+                    
+                    </aside>
+                </section>
+                <section>
+                    <h2>Docker</h2>
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Native</h2>
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Reactor</h2>
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: Spring Cloud Stream</h2>
+                    <aside class="notes"></aside>
+                </section>
+                <section>
+                    <h2>DIY: switch to RabbitMQ</h2>
+                    <img width="50%" src="img/set-rabbitmq.png">
+                    <p>set defaultCandidate of rabbit to true</p>
+                </section>
+
                 
                 
                 
