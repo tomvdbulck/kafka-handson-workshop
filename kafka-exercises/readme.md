@@ -121,7 +121,7 @@ Now lets go the reactive way.
 #### 2.1 Producer
 
 Implement in SimpleProducer.java the sendMessages() method.
-See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java) for sample reactive producer. 
+See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java](https://github.com/reactor/reactor-kafka/blob/master/reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleProducer.java) for sample reactive producer. 
 
 When implemented send the postman request.
 POST to http://localhost:8080/reactor:
@@ -137,7 +137,7 @@ You can update the call the nativeConsumer to see if messages effectively got pr
 #### 2.2 Consumer
 
 Implement in SimpleConsumer.java the readMessages() method.
-See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java](reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java) for sample reactive consumer.
+See [reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java](https://github.com/reactor/reactor-kafka/blob/master/reactor-kafka-samples/src/main/java/reactor/kafka/samples/SampleConsumer.java) for sample reactive consumer.
 
 When done, test with:`
 GET to http://localhost:8080/reactor?topic=test: 
