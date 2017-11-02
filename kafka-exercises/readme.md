@@ -81,7 +81,7 @@ Disclaimer: I just ran the export ;-)
 #### 1.1 Producer
 
 Implement in NativeProducer.java the sendMessages() method.
-See [javadoc](https://kafka.apache.org/100/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html)
+See [javadoc](https://kafka.apache.org/0110/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html)
 
 When implemented send the postman request.
 POST to http://localhost:8080/native:
@@ -100,7 +100,7 @@ Verify with http://localhost:8080/topics that the topic has indeed been created.
 #### 1.2 Consumer
 
 Implement in NativeConsumer.java the readMessages() method.
-See [Javadoc](https://kafka.apache.org/100/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html)
+See [Javadoc](https://kafka.apache.org/0110/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html)
 
 When done, test with:`
 GET to http://localhost:8080/native?topic=test: 
