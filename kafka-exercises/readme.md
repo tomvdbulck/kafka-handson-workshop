@@ -13,15 +13,16 @@ Build the image:
 docker build -t kafka-zookeeper .
 ```
 
+If you run the container with the following command you can connect to your kafka from outside of the container
+```bash
+docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
+```
+
+Without the advertised host and port you can only connect to your kafka node from within the docker container.
 
 Then run the container:
 ```bash
 docker run --name a_name -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
-```
-
-If you run the container with the following command you can connect to your kafka from outside of the container
-```bash
-docker run --name kafka-zookeeper -e ADVERTISED_HOST=localhost -e ADVERTISED_PORT=9092 -i -t -p 2181:2181 -p 9092:9092 kafka-zookeeper
 ```
 
 #### Play with it (*optional*)
